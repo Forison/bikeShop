@@ -1,0 +1,43 @@
+.airpods-card {
+  margin: auto;
+  border: 0;
+
+  .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  .subtitle {
+    font-size: 13px;
+    color: gray;
+  }
+
+
+  .pricing {
+    margin: 1rem 0;
+
+    h2 {
+      font-size: 1.4rem;
+      font-weight: bold;
+    }
+
+    .financing {
+      font-size: 0.8rem;
+      color: gray;
+    }
+  }
+
+
+  .actions {
+    display: flex;
+    gap: 1rem;
+
+    .buy-now {
+      flex: 1;
+    }
+
+    .add-to-cart {
+      flex: 1;
+    }
+  }
+}

@@ -1,0 +1,105 @@
+.airpods-max {
+  .product-image {
+    text-align: center;
+
+    img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+  }
+
+  .product-details {
+    .product-title {
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+
+    .product-description {
+      font-size: 1rem;
+      color: #555;
+    }
+
+    .product-rating {
+      .rating {
+        color: gold;
+        font-size: 1.2rem;
+      }
+    }
+
+    .product-price {
+      font-size: 1.4rem;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .product-colors {
+      .color-options {
+        .color-option {
+          width: 24px;
+          height: 24px;
+          margin-right: 8px;
+          border-radius: 50%;
+          border: 1px solid #ddd;
+          cursor: pointer;
+
+          &.pink {
+            background: #f4bfbf;
+          }
+
+          &.black {
+            background: #000;
+          }
+
+          &.green {
+            background: #a2d2a2;
+          }
+
+          &.blue {
+            background: #77aaff;
+          }
+
+          &.white {
+            background: #fff;
+          }
+
+          &.active {
+            border: 2px solid #333;
+          }
+        }
+      }
+    }
+
+    .quantity-section {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+
+      .quantity {
+        padding: 0 10px;
+        font-weight: bold;
+      }
+
+      .items-left {
+        margin-left: 10px;
+        color: red;
+        font-size: 0.9rem;
+      }
+    }
+
+    .action-buttons {
+      .buy-now {
+        margin-right: 10px;
+      }
+    }
+
+    .delivery-info {
+      p {
+        margin: 5px 0;
+
+        a {
+          color: #007bff;
+        }
+      }
+    }
+  }
+}

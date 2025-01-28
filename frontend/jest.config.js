@@ -1,8 +1,10 @@
 module.exports = {
   preset: 'ts-jest',
-  testEnvironment: 'jsdom',
+  testEnvironment: 'jest-environment-jsdom',
+  setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect'],
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
   },
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'json', 'node'],
+  moduleFileExtensions: ['js', 'ts', 'tsx'],
+  testPathIgnorePatterns: ['/node_modules/', '/build/'],
 };

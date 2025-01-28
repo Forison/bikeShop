@@ -1,0 +1,4 @@
+/* Custom styles to hide the caret */
+.no-caret>a::after {
+  display: none !important;
+}

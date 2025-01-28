@@ -1,0 +1,20 @@
+.image-gallery {
+  border: 0;
+
+  .main-image {
+    margin-bottom: 1rem;
+    border: 0;
+  }
+
+  .thumbnails {
+    .thumbnail {
+      cursor: pointer;
+      border: 2px solid silver;
+      transition: all 0.3s ease;
+
+      &:hover {
+        border-color: #007bff;
+      }
+    }
+  }
+}
