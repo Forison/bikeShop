@@ -1,25 +1,55 @@
-import React, { useState } from 'react'
-import { Button, Card, Dropdown, DropdownButton, Row, Col } from 'react-bootstrap'
+import React, { useEffect, useState } from 'react'
+import { Card } from 'react-bootstrap'
+import { useParams } from 'react-router-dom'
 import 'font-awesome/css/font-awesome.min.css'
-import './ProductCustomization.scss'
 import ProductCustomizationForm from './ProductCustomizationForm'
+import { Product, ProductPart, ProductPartOption } from '../../utils/interface/shop'
+import { getCookie } from '../../utils/helper/tokenHandler'
 
+import './ProductCustomization.scss'
+export interface ProductWithParts extends Product {
+  product_parts: ProductPart[];
+  product_part_options: ProductPartOption[];
+}
 
 const ProductCustomization: React.FC = () => {
+  const { id } = useParams<{ id?: string }>()
+  const [product, setProduct] = useState<ProductWithParts | null>(null)
+
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_BACK_END_API_URL}/api/v1/products/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${getCookie()}`
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        setProduct(data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }, [id])
 
   return (
-    <Card className='airpods-card'>
+    <Card className='product-card'>
       <Card.Body>
-        <Card.Title className='title'>Airpods- Max</Card.Title>
+        <Card.Title className='title'>{product?.name}</Card.Title>
         <Card.Text className='subtitle'>
-          A perfect balance of exhilarating high-fidelity audio and the effortless magic of AirPods.
+          {product?.description}
         </Card.Text>
         <div className='pricing'>
-          <h2>$549.00</h2>
+          <h2>€{product?.base_price}</h2>
         </div>
-        <h6>Customize your product as you wish</h6>
+        <small>Customize your product as you wish</small>
 
-        <ProductCustomizationForm />
+        <ProductCustomizationForm
+          productPartNames={product?.product_parts ?? []}
+          productOptions={product?.product_part_options ?? []}
+          productId={1}
+        />
       </Card.Body>
     </Card>
   )

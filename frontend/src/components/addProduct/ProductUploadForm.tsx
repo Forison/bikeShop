@@ -6,13 +6,9 @@ import { Shop } from '../../utils/interface/shop'
 const ProductUploadForm: React.FC = React.memo(() => {
   const { touched, errors, setFieldValue } = useFormikContext<Shop>()
 
-  // Handle file input change event to update Formik's state
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files
-    if (files) {
-      // Update the Formik field with the selected files
-      setFieldValue('product.images', files)
-    }
+    if (files) setFieldValue('product.images', files)
   }
 
   return (
@@ -53,15 +49,15 @@ const ProductUploadForm: React.FC = React.memo(() => {
       <Form.Group controlId='basePrice' className='mb-3'>
         <Form.Label>Base Price</Form.Label>
         <Field
-          name='product.basePrice'
+          name='product.base_price'
           type='number'
           as={Form.Control}
-          isInvalid={touched.product?.basePrice && !!errors.product?.basePrice}
+          isInvalid={touched.product?.base_price && !!errors.product?.base_price}
         />
-        <ErrorMessage name='product.basePrice' component='div' className='text-danger' />
+        <ErrorMessage name='product.base_price' component='div' className='text-danger' />
       </Form.Group>
 
-      <Form.Group controlId='images' className='mb-3'>
+      {/* <Form.Group controlId='images' className='mb-3'>
         <Form.Label>Upload Images</Form.Label>
         <input
           type='file'
@@ -74,7 +70,7 @@ const ProductUploadForm: React.FC = React.memo(() => {
         {touched.product?.images && errors.product?.images && (
           <div className='text-danger'>{errors.product.images}</div>
         )}
-      </Form.Group>
+      </Form.Group> */}
     </>
   )
 })

@@ -1,29 +1,30 @@
-interface Product {
+export interface Product {
+  id?: number
   name: string
   category: string
   description: string
-  basePrice: string
-  images: string[]
+  base_price: string
 }
 
-interface ProductPartOption {
-  partOption: string
+export interface ProductPartOption {
+  name: string
   price: number
+  quantity: number
 }
 
-interface ProductPart {
-  part: string
-  partOptions: ProductPartOption[]
+export interface ProductPart {
+  name: string
+  part_options: ProductPartOption[]
 }
 
 interface PriceRulePartOption {
-  conditionValue: string
-  conditionKey: string
-  priceModifier: number
+  condition_value: string
+  condition_key: string
+  price_modifier: number
 }
 
 interface PriceRule {
-  partOption: PriceRulePartOption[]
+  part_option: PriceRulePartOption[]
 }
 
 interface ProhibitedOption {
@@ -32,14 +33,12 @@ interface ProhibitedOption {
 }
 
 interface CombinationRule {
-  productId: number
-  prohibitedOptions: ProhibitedOption[]
+  prohibited_options: ProhibitedOption[]
 }
 
 export interface Shop {
   product: Product
-  productPart: ProductPart
-  priceRule: PriceRule
-  combinationRule: CombinationRule
+  product_parts: ProductPart[]
+  price_rule: PriceRule
+  combination_rule: CombinationRule
 }
-

@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Form, Button, Container, Row, Col } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
 import { Formik } from 'formik'
 import { User } from '../../utils/interface/user'
 import { LoginValidationSchema } from '../../utils/schema'
 import AlertBanner from '../../presentational/AlertBanner'
+import { setCookie } from '../../utils/helper/tokenHandler'
 
 
 const initialValues: User = {
@@ -12,9 +14,32 @@ const initialValues: User = {
 }
 
 const Login: React.FC = () => {
+  const navigate = useNavigate()
+  const [variant, setVariant] = useState('')
+  const [message, setMessage] = useState('')
 
   const handleSubmit = (values: User) => {
-    console.log(values)
+    fetch(`${process.env.REACT_APP_BACK_END_API_URL}/api/v1/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    })
+      .then(response => response.json())
+      .then(data => {
+        setCookie(data.user.token)
+        setMessage('Login successful')
+        setVariant('success')
+        setTimeout(() => {
+          navigate('/')
+        }
+          , 2000)
+      })
+      .catch((error) => {
+        setVariant('danger')
+        console.error('Error:', error)
+      })
   }
 
   return (
@@ -23,6 +48,7 @@ const Login: React.FC = () => {
         <Col md={12}>
           <>
             <h2 className='text-center'>Login</h2>
+            {(message && variant) && <AlertBanner variant={variant} message={message} />}
             <Formik
               initialValues={initialValues}
               validationSchema={LoginValidationSchema}

@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Form, Button, Container, Row, Col } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
 import { Formik } from 'formik'
 import { User } from '../../utils/interface/user'
 import { registrationSchema } from '../../utils/schema'
@@ -10,13 +11,37 @@ const initialValues: User = {
   name: '',
   email: '',
   password: '',
-  passwordConfirmation: ''
+  passwordConfirmation: '',
+  role: ''
 }
 
 const Register: React.FC = () => {
+  const navigate = useNavigate()
+  const [variant, setVariant] = useState('')
+  const [message, setMessage] = useState('')
 
   const handleSubmit = (values: User) => {
-    console.log(values)
+    fetch(`${process.env.REACT_APP_BACK_END_API_URL}/api/v1/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ user: values }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+        setMessage('Registration successful, login now')
+        setVariant('success')
+        setTimeout(() => {
+          navigate('/login')
+        }, 2000)
+      })
+      .catch((error) => {
+        setMessage('OOps! something went wrong try again')
+        setVariant('danger')
+        console.error('Error:', error);
+      })
   }
 
   return (
@@ -24,6 +49,7 @@ const Register: React.FC = () => {
       <Row>
         <Col>
           <h2 className='text-center'>Register</h2>
+          {(message && variant) && <AlertBanner variant={variant} message={message} />}
           <Formik
             initialValues={initialValues}
             validationSchema={registrationSchema}
@@ -58,6 +84,25 @@ const Register: React.FC = () => {
                   />
                   <Form.Control.Feedback type='invalid'>
                     {errors.email}
+                  </Form.Control.Feedback>
+                </Form.Group>
+
+                <Form.Group controlId='formRole'>
+                  <Form.Label>Role</Form.Label>
+                  <Form.Control
+                    as='select'
+                    name='role'
+                    value={values.role}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    isInvalid={!!(touched.role && errors.role)}
+                  >
+                    <option value=''>Select a role</option>
+                    <option value='admin'>Admin</option>
+                    <option value='customer'>Customer</option>
+                  </Form.Control>
+                  <Form.Control.Feedback type='invalid'>
+                    {errors.role}
                   </Form.Control.Feedback>
                 </Form.Group>
 

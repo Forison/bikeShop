@@ -1,22 +1,26 @@
 import React from 'react'
 import { Card, Button } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
+
 import './ProductCard.scss'
 
 interface Props {
-  productImgUrl: string
   name: string
   category: string
   description: string
   price: string
+  id: number
 }
 
-const ProductCard: React.FC<Props> = ({ productImgUrl, name, category, description, price }) => {
+const ProductCard: React.FC<Props> = ({ id, name, category, description, price }) => {
+  const navigate = useNavigate()
+  console.log(id)
   return (
     <Card className='product-card'>
       <div className='image-container'>
         <Card.Img
           variant='top'
-          src={productImgUrl}
+          src={'https://d2f9uwgpmber13.cloudfront.net/public/uploads/mobile/16593b79e64a81b71718111730285.png'}
           alt='product_img'
         />
       </div>
@@ -29,7 +33,7 @@ const ProductCard: React.FC<Props> = ({ productImgUrl, name, category, descripti
           {category}
         </Card.Text>
         <div className='product-price'>€{price}</div>
-        <Button variant='success' className='add-to-cart-btn'>
+        <Button variant='success' className='add-to-cart-btn' onClick={() => navigate(`/detail/${id}`)}>
           View detail
         </Button>
       </Card.Body>

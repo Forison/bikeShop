@@ -17,6 +17,7 @@ export const registrationSchema = Yup.object({
   email: Yup.string()
     .required('Email is required')
     .email('Invalid email format'),
+  role: Yup.string().required('Role is required'),
   password: Yup.string()
     .required('Password is required')
     .min(8, 'Password must be at least 8 characters'),
@@ -70,35 +71,35 @@ export const combinedValidationSchema = Yup.object({
     name: Yup.string().required('Product name is required'),
     category: Yup.string().required('Category is required'),
     description: Yup.string().required('Description is required'),
-    basePrice: Yup.number().required('Base Price is required').min(0, 'Base Price must be greater than or equal to 0')
+    base_price: Yup.number().required('Base Price is required').min(0, 'Base Price must be greater than or equal to 0')
   }),
 
-  productPart: Yup.object({
-    part: Yup.string().required('Part is required'),
-    partOptions: Yup.array()
+  product_part: Yup.object({
+    part_options: Yup.array()
       .of(
         Yup.object({
-          partOption: Yup.string().required('Part Option is required'),
+          part: Yup.string().required('Part Option is required'),
           price: Yup.number().required('Price is required').min(0, 'Price must be greater than or equal to 0'),
+          quantity: Yup.number().required('Price is required').min(0, 'Price must be greater than or equal to 0'),
         })
       )
       .min(1, 'At least one part option is required')
   }),
 
-  priceRule: Yup.object({
-    partOption: Yup.array()
+  price_rule: Yup.object({
+    part_option: Yup.array()
       .of(
         Yup.object({
-          conditionKey: Yup.string().required('Condition Key is required'),
-          conditionValue: Yup.string().required('Condition Value is required'),
-          priceModifier: Yup.number().required('Price Modifier is required').min(0, 'Price Modifier must be greater than or equal to 0'),
+          condition_key: Yup.string().required('Condition Key is required'),
+          condition_value: Yup.string().required('Condition Value is required'),
+          price_modifier: Yup.number().required('Price Modifier is required').min(0, 'Price Modifier must be greater than or equal to 0'),
         })
       )
       .min(1, 'At least one part option condition is required')
   }),
 
-  combinationRule: Yup.object({
-    prohibitedOptions: Yup.array()
+  combination_rule: Yup.object({
+    prohibited_options: Yup.array()
       .of(
         Yup.object({
           part: Yup.string().required('Product part is required'),

@@ -9,22 +9,22 @@ const PriceRuleForm: React.FC = () => {
   return (
     <>
       <h1 className='text-center'>Add Price Rule</h1>
-      <FieldArray name='priceRule.partOption'>
+      <FieldArray name='price_rule.part_option'>
         {({ push, remove }) => (
           <>
-            {values.priceRule.partOption.map((_, index) => (
+            {values.price_rule.part_option.map((_, index) => (
               <Row key={index} className='align-items-center mb-3'>
                 <Col xs={4}>
                   <div className='form-group' control-id={`conditionKey_${index}`}>
                     <label>Part name</label>
                     <Field
-                      name={`priceRule.partOption[${index}].conditionKey`}
+                      name={`price_rule.part_option[${index}].condition_key`}
                       type='text'
                       placeholder='Enter condition key'
                       className='form-control'
                     />
                     <ErrorMessage
-                      name={`priceRule.partOption[${index}].conditionKey`}
+                      name={`price_rule.part_option[${index}].condition_key`}
                       component='div'
                       className='text-danger'
                     />
@@ -35,13 +35,13 @@ const PriceRuleForm: React.FC = () => {
                   <div className='form-group' control-id={`conditionValue_${index}`}>
                     <label>Part option</label>
                     <Field
-                      name={`priceRule.partOption[${index}].conditionValue`}
+                      name={`price_rule.part_option[${index}].condition_value`}
                       type='text'
                       placeholder='Enter condition value'
                       className='form-control'
                     />
                     <ErrorMessage
-                      name={`priceRule.partOption[${index}].conditionValue`}
+                      name={`price_rule.part_option[${index}].condition_value`}
                       component='div'
                       className='text-danger'
                     />
@@ -52,12 +52,12 @@ const PriceRuleForm: React.FC = () => {
                   <div className='form-group' control-id={`priceModifier_${index}`}>
                     <label>Price Modifier</label>
                     <Field
-                      name={`priceRule.partOption[${index}].priceModifier`}
+                      name={`price_rule.part_option[${index}].price_modifier`}
                       type='number'
                       className='form-control'
                     />
                     <ErrorMessage
-                      name={`priceRule.partOption[${index}].priceModifier`}
+                      name={`price_rule.part_option[${index}].price_modifier`}
                       component='div'
                       className='text-danger'
                     />
@@ -65,7 +65,7 @@ const PriceRuleForm: React.FC = () => {
                 </Col>
 
                 <Col xs={1} className='text-center'>
-                  {values.priceRule.partOption.length > 1 && (
+                  {values.price_rule.part_option.length > 1 && (
                     <Button
                       variant='danger'
                       onClick={() => remove(index)}
@@ -81,7 +81,7 @@ const PriceRuleForm: React.FC = () => {
               <Button
                 variant='outline-light'
                 onClick={() =>
-                  push({ conditionKey: '', conditionValue: '', priceModifier: 0 })
+                  push({ condition_key: '', condition_value: '', price_modifier: 0 })
                 }
                 className='add-more-btn mr-3'
               >

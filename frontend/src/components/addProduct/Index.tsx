@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Formik, Form, FormikHelpers } from 'formik'
+import { useNavigate } from 'react-router-dom'
 import { Container, Row, Col, Button } from 'react-bootstrap'
 import ProductUploadForm from './ProductUploadForm'
 import ProductPartOptionForm from './ProductPartOptionForm'
@@ -8,47 +9,71 @@ import CombinationRuleForm from './CombinationRuleForm'
 import { combinedValidationSchema } from '../../utils/schema'
 import { Shop } from '../../utils/interface/shop'
 import NavBar from '../productDetails/NavBar'
+import { getCookie } from '../../utils/helper/tokenHandler'
 import './Index.scss'
+import AlertBanner from '../../presentational/AlertBanner'
 
 const initialValues: Shop = {
   product: {
     name: '',
     category: '',
     description: '',
-    basePrice: '',
-    images: [],
+    base_price: '',
   },
-  productPart: {
-    part: '',
-    partOptions: [{ partOption: '', price: 0 }],
-  },
-  priceRule: {
-    partOption: [
+  product_parts: [{
+    name: '',
+    part_options: [{ name: '', price: 0, quantity: 0 }],
+  }],
+  price_rule: {
+    part_option: [
       {
-        conditionKey: '',
-        conditionValue: '',
-        priceModifier: 0,
+        condition_key: '',
+        condition_value: '',
+        price_modifier: 0,
       },
     ],
   },
-  combinationRule: {
-    productId: 1,
-    prohibitedOptions: [{
+  combination_rule: {
+    prohibited_options: [{
       part: '',
       option: ''
     }],
   },
 }
 
-const MultiStepForm: React.FC = () => {
+const Index: React.FC = () => {
+  const navigate = useNavigate()
+  const [variant, setVariant] = useState('')
+  const [message, setMessage] = useState('')
   const [step, setStep] = useState(1)
 
   const handleNext = () => setStep((prev) => prev + 1)
   const handlePrev = () => setStep((prev) => prev - 1)
 
   const handleSubmit = (values: Shop, actions: FormikHelpers<Shop>) => {
-    console.log('Form submitted with values:', values)
-    actions.setSubmitting(false)
+    fetch(`${process.env.REACT_APP_BACK_END_API_URL}/api/v1/products`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${getCookie()}`
+      },
+      body: JSON.stringify(values),
+    })
+      .then(response => response.json())
+      .then(() => {
+        setVariant('success')
+        setMessage('A new product has been added')
+        setTimeout(() => {
+          setVariant('')
+          setMessage('')
+          // navigate('/')
+        }, 2000)
+      })
+      .catch((error) => {
+        console.log(error)
+        setVariant('product creation failed')
+        setMessage('danger')
+      })
   }
 
   const renderStep = () => {
@@ -71,6 +96,7 @@ const MultiStepForm: React.FC = () => {
       <NavBar />
       <Container className='mt-5'>
         <Row className='justify-content-center'>
+          {(message && variant) && <AlertBanner variant={variant} message={message} />}
           <Col lg={6}>
             <Formik
               initialValues={initialValues}
@@ -92,7 +118,7 @@ const MultiStepForm: React.FC = () => {
                       </Button>
                     )}
                     {step === 4 && (
-                      <Button variant='success' type='submit' disabled={isSubmitting}>
+                      <Button variant='success' type='submit'>
                         Submit
                       </Button>
                     )}
@@ -107,4 +133,4 @@ const MultiStepForm: React.FC = () => {
   )
 }
 
-export default MultiStepForm
+export default Index

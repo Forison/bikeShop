@@ -4,4 +4,5 @@ export interface User {
   password: string
   passwordConfirmation?: string
   role?: string
+  admin?: boolean
 }

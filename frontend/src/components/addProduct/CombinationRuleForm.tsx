@@ -9,22 +9,22 @@ const CombinationRuleForm: React.FC = () => {
   return (
     <>
       <h1 className='text-center'>Add Combination Rules</h1>
-      <FieldArray name='combinationRule.prohibitedOptions'>
+      <FieldArray name='combination_rule.prohibited_options'>
         {({ push, remove }) => (
           <>
             <h5>Prohibited Options</h5>
-            {values.combinationRule.prohibitedOptions.map((_, index) => (
+            {values.combination_rule.prohibited_options.map((_, index) => (
               <div key={index} className='d-flex align-items-center gap-3 mb-3'>
                 <Form.Group controlId={`prohibitedOptions-${index}`} className='flex-grow-1'>
                   <Form.Label>Part</Form.Label>
                   <Field
-                    name={`combinationRule.prohibitedOptions[${index}].part`}
+                    name={`combination_rule.prohibited_options[${index}].part`}
                     type='text'
                     as={Form.Control}
                     placeholder='Enter prohibited part'
                   />
                   <ErrorMessage
-                    name={`combinationRule.prohibitedOptions[${index}].part`}
+                    name={`combination_rule.prohibited_options[${index}].part`}
                     component='div'
                     className='text-danger'
                   />
@@ -33,19 +33,19 @@ const CombinationRuleForm: React.FC = () => {
                 <Form.Group controlId={`prohibitedOptions-${index}`} className='flex-grow-1'>
                   <Form.Label>Option</Form.Label>
                   <Field
-                    name={`combinationRule.prohibitedOptions[${index}].option`}
+                    name={`combination_rule.prohibited_options[${index}].option`}
                     type='text'
                     as={Form.Control}
                     placeholder='Enter prohibited option'
                   />
                   <ErrorMessage
-                    name={`combinationRule.prohibitedOptions[${index}].option`}
+                    name={`combination_rule.prohibited_options[${index}].option`}
                     component='div'
                     className='text-danger'
                   />
                 </Form.Group>
 
-                {values.combinationRule.prohibitedOptions.length > 1 && (
+                {values.combination_rule.prohibited_options.length > 1 && (
                   <Button
                     variant='danger'
                     className='mt-4'
