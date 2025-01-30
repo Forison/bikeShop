@@ -4,12 +4,7 @@ import { Form } from 'react-bootstrap'
 import { Shop } from '../../utils/interface/shop'
 
 const ProductUploadForm: React.FC = React.memo(() => {
-  const { touched, errors, setFieldValue } = useFormikContext<Shop>()
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files
-    if (files) setFieldValue('product.images', files)
-  }
+  const { touched, errors } = useFormikContext<Shop>()
 
   return (
     <>
@@ -36,6 +31,17 @@ const ProductUploadForm: React.FC = React.memo(() => {
         <ErrorMessage name='product.category' component='div' className='text-danger' />
       </Form.Group>
 
+      <Form.Group controlId='quantity' className='mb-3'>
+        <Form.Label>Quantity</Form.Label>
+        <Field
+          name='product.quantity'
+          type='numer'
+          as={Form.Control}
+          isInvalid={touched.product?.quantity && !!errors.product?.quantity}
+        />
+        <ErrorMessage name='product.quantity' component='div' className='text-danger' />
+      </Form.Group>
+
       <Form.Group controlId='description' className='mb-3'>
         <Form.Label>Description</Form.Label>
         <Field
@@ -45,32 +51,6 @@ const ProductUploadForm: React.FC = React.memo(() => {
           className='form-control'
         />
       </Form.Group>
-
-      <Form.Group controlId='basePrice' className='mb-3'>
-        <Form.Label>Base Price</Form.Label>
-        <Field
-          name='product.base_price'
-          type='number'
-          as={Form.Control}
-          isInvalid={touched.product?.base_price && !!errors.product?.base_price}
-        />
-        <ErrorMessage name='product.base_price' component='div' className='text-danger' />
-      </Form.Group>
-
-      {/* <Form.Group controlId='images' className='mb-3'>
-        <Form.Label>Upload Images</Form.Label>
-        <input
-          type='file'
-          name='product.images'
-          multiple
-          accept='image/*'
-          onChange={handleFileChange}
-          className='form-control'
-        />
-        {touched.product?.images && errors.product?.images && (
-          <div className='text-danger'>{errors.product.images}</div>
-        )}
-      </Form.Group> */}
     </>
   )
 })

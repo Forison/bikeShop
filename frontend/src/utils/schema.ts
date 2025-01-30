@@ -37,10 +37,6 @@ export const productSchema = Yup.object({
     .positive('Base price must be positive')
     .max(9999999999, 'Base price exceeds maximum allowed value')
     .required('Base price is required'),
-  images: Yup.array()
-    .of(Yup.mixed().required("Image is required"))
-    .max(3, "You can upload up to 3 images")
-    .required("At least one image is required"),
 })
 
 export const productPartSchema = Yup.object({
@@ -71,7 +67,7 @@ export const combinedValidationSchema = Yup.object({
     name: Yup.string().required('Product name is required'),
     category: Yup.string().required('Category is required'),
     description: Yup.string().required('Description is required'),
-    base_price: Yup.number().required('Base Price is required').min(0, 'Base Price must be greater than or equal to 0')
+    quantity: Yup.number().required('Price is required').min(0, 'Price must be greater than or equal to 0'),
   }),
 
   product_part: Yup.object({

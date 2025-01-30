@@ -3,18 +3,20 @@ import { Card, Button } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 
 import './ProductCard.scss'
+import { OUT_OF_STOCK } from '../utils/helper/magicDefinitions'
+import StockStatus from './StockStatus'
 
 interface Props {
+  quantity: number
   name: string
   category: string
   description: string
-  price: string
+  price: number
   id: number
 }
 
-const ProductCard: React.FC<Props> = ({ id, name, category, description, price }) => {
+const ProductCard: React.FC<Props> = ({ id, name, category, description, price, quantity }) => {
   const navigate = useNavigate()
-  console.log(id)
   return (
     <Card className='product-card'>
       <div className='image-container'>
@@ -33,9 +35,12 @@ const ProductCard: React.FC<Props> = ({ id, name, category, description, price }
           {category}
         </Card.Text>
         <div className='product-price'>€{price}</div>
-        <Button variant='success' className='add-to-cart-btn' onClick={() => navigate(`/detail/${id}`)}>
-          View detail
-        </Button>
+        <StockStatus quantity={quantity} />
+        {quantity !== OUT_OF_STOCK &&
+          <Button variant='secondary' className='add-to-cart-btn mt-2' onClick={() => navigate(`/detail/${id}`)}>
+            View detail
+          </Button>
+        }
       </Card.Body>
     </Card>
   )

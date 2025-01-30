@@ -7,6 +7,7 @@ import { Product, ProductPart, ProductPartOption } from '../../utils/interface/s
 import { getCookie } from '../../utils/helper/tokenHandler'
 
 import './ProductCustomization.scss'
+
 export interface ProductWithParts extends Product {
   product_parts: ProductPart[];
   product_part_options: ProductPartOption[];
@@ -48,7 +49,6 @@ const ProductCustomization: React.FC = () => {
         <ProductCustomizationForm
           productPartNames={product?.product_parts ?? []}
           productOptions={product?.product_part_options ?? []}
-          productId={1}
         />
       </Card.Body>
     </Card>

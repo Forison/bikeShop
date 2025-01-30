@@ -39,7 +39,8 @@ const Home: React.FC = () => {
                 name={product.name}
                 category={product.category}
                 description={product.description}
-                price={product.base_price}
+                price={product.base_price ?? 0}
+                quantity={product.quantity}
               />
             </Col>
           ))}

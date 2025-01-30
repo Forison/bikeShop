@@ -21,7 +21,6 @@ const Index: React.FC = () => {
               imageUrl='https://ahoybikes.com/wp-content/uploads/2022/12/HYBRID-BIKE-1-500x330.jpg.webp'
               title='Relaxed Fit T-shirt'
               price={12.99}
-              stockStatus='In Stock'
               quantity={quantity}
               onDelete={handleDelete}
             />

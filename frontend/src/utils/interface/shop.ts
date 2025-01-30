@@ -3,7 +3,8 @@ export interface Product {
   name: string
   category: string
   description: string
-  base_price: string
+  base_price: number
+  quantity: number
 }
 
 export interface ProductPartOption {

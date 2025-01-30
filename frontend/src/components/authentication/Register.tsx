@@ -29,8 +29,7 @@ const Register: React.FC = () => {
       body: JSON.stringify({ user: values }),
     })
       .then(response => response.json())
-      .then(data => {
-        console.log('Success:', data);
+      .then(() => {
         setMessage('Registration successful, login now')
         setVariant('success')
         setTimeout(() => {
@@ -40,7 +39,7 @@ const Register: React.FC = () => {
       .catch((error) => {
         setMessage('OOps! something went wrong try again')
         setVariant('danger')
-        console.error('Error:', error);
+        console.error('Error:', error)
       })
   }
 

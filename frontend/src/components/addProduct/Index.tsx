@@ -18,7 +18,8 @@ const initialValues: Shop = {
     name: '',
     category: '',
     description: '',
-    base_price: '',
+    base_price: 0,
+    quantity: 0
   },
   product_parts: [{
     name: '',
@@ -66,7 +67,7 @@ const Index: React.FC = () => {
         setTimeout(() => {
           setVariant('')
           setMessage('')
-          // navigate('/')
+          navigate('/')
         }, 2000)
       })
       .catch((error) => {
