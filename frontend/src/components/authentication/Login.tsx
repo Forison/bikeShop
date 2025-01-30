@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Form, Button, Container, Row, Col } from 'react-bootstrap'
-import { useNavigate } from 'react-router-dom'
 import { Formik } from 'formik'
 import { User } from '../../utils/interface/user'
 import { LoginValidationSchema } from '../../utils/schema'
@@ -14,7 +13,6 @@ const initialValues: User = {
 }
 
 const Login: React.FC = () => {
-  const navigate = useNavigate()
   const [variant, setVariant] = useState('')
   const [message, setMessage] = useState('')
 
@@ -32,9 +30,8 @@ const Login: React.FC = () => {
         setMessage('Login successful')
         setVariant('success')
         setTimeout(() => {
-          navigate('/')
-        }
-          , 2000)
+          window.location.href = '/'
+        }, 2000)
       })
       .catch((error) => {
         setVariant('danger')
@@ -86,7 +83,7 @@ const Login: React.FC = () => {
                     </Form.Control.Feedback>
                   </Form.Group>
 
-                  <Button variant='primary' type='submit' className='mt-3'>
+                  <Button variant='primary' type='submit' className='w-100 mt-3'>
                     Login
                   </Button>
                   <AlertBanner

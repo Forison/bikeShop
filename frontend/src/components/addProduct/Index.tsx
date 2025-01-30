@@ -15,6 +15,7 @@ import AlertBanner from '../../presentational/AlertBanner'
 
 const initialValues: Shop = {
   product: {
+    id: 0,
     name: '',
     category: '',
     description: '',

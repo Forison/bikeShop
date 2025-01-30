@@ -6,18 +6,14 @@ import NavBar from '../productDetails/NavBar'
 import { getCookie } from '../../utils/helper/tokenHandler'
 import { Product } from '../../utils/interface/shop'
 
-interface CartItem {
+interface CartItemProp {
   cart_item: Product
+  cart_item_id: number
   cart_item_price_summation: number
 }
 
 const Index: React.FC = () => {
-  const [countQuantity, setCountQuantity] = useState(1)
-  const [products, setProducts] = useState<CartItem[]>([])
-
-  const handleDelete = () => {
-  }
-
+  const [products, setProducts] = useState<CartItemProp[]>([])
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_BACK_END_API_URL}/api/v1/carts`, {
@@ -47,7 +43,7 @@ const Index: React.FC = () => {
                   price={product.cart_item.base_price}
                   quantity={product.cart_item.quantity}
                   description={product.cart_item.description}
-                  onDelete={handleDelete}
+                  cart_item_id={product.cart_item_id}
                 />
               </React.Fragment>
             ))}

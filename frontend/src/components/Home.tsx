@@ -6,6 +6,7 @@ import ProductCard from '../presentational/ProductCard'
 import { getCookie } from '../utils/helper/tokenHandler'
 import { Product } from '../utils/interface/shop'
 
+
 const Home: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([])
 

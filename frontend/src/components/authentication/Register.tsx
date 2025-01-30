@@ -135,7 +135,7 @@ const Register: React.FC = () => {
                   </Form.Control.Feedback>
                 </Form.Group>
 
-                <Button variant='primary' type='submit' className='mt-3'>
+                <Button variant='primary' type='submit' className='w-100 mt-3'>
                   Register
                 </Button>
                 <AlertBanner

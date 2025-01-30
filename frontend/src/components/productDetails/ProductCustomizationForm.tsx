@@ -34,7 +34,6 @@ const ProductCustomizationForm: React.FC<Props> = ({ productPartNames, productOp
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data)
           setExistingCustomizations(data.selected_options)
         })
         .catch((error) => {
