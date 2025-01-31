@@ -5,14 +5,12 @@ require 'test_helper'
 module Api
   module V1
     class ProductsControllerTest < ActionDispatch::IntegrationTest
-      include FactoryBot::Syntax::Methods
-
       setup do
-        @user = create(:user_v1, password: 'password', password_confirmation: 'password')
+        @user = create(:user, password: 'password', password_confirmation: 'password')
         post api_v1_login_url, params: { email: @user.email, password: 'password' }
         json_response = JSON.parse(response.body)
         @token = json_response['user']['token']
-        @product = create(:product_v1, user: @user)
+        @product = create(:product, user: @user)
       end
 
       test 'should get index' do

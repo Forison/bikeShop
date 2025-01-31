@@ -5,53 +5,50 @@ require 'test_helper'
 module Api
   module V1
     class UserTest < ActiveSupport::TestCase
-      include FactoryBot::Syntax::Methods
-
-      setup do
-        @user = build(:user_v1)
+      def setup
+        @user = create(:user)
       end
 
-      test 'valid user' do
-        assert @user.valid?
+      test 'should have many products' do
+        product1 = create(:product, user: @user)
+        product2 = create(:product, user: @user)
+
+        assert_includes @user.products, product1
+        assert_includes @user.products, product2
       end
 
-      test 'invalid without email' do
-        @user.email = nil
-        assert_not @user.valid?
-        assert_includes @user.errors[:email], "can't be blank"
+      test 'should have one cart' do
+        cart = create(:cart, user: @user)
+
+        assert_equal @user.cart, cart
       end
 
-      test 'invalid with duplicate email' do
-        create(:user_v1, email: @user.email)
-        assert_not @user.valid?
-        assert_includes @user.errors[:email], 'has already been taken'
+      test 'should validate presence of email' do
+        user_without_email = build(:user, email: nil)
+
+        assert_not user_without_email.valid?
+        assert_includes user_without_email.errors[:email], "can't be blank"
       end
 
-      test 'invalid with short password' do
-        @user.password = 'short'
-        @user.password_confirmation = 'short'
-        assert_not @user.valid?
-        assert_includes @user.errors[:password], 'is too short (minimum is 8 characters)'
+      test 'should validate uniqueness of email' do
+        create(:user, email: 'test@example.com')
+        user_with_duplicate_email = build(:user, email: 'test@example.com')
+
+        assert_not user_with_duplicate_email.valid?
+        assert_includes user_with_duplicate_email.errors[:email], 'has already been taken'
       end
 
-      test 'valid with role customer or admin' do
-        @user.role = 'admin'
-        assert @user.valid?
+      test 'should validate password length (minimum 8 characters)' do
+        user_with_short_password = build(:user, password: 'short')
 
-        @user.role = 'customer'
-        assert @user.valid?
+        assert_not user_with_short_password.valid?
+        assert_includes user_with_short_password.errors[:password], 'is too short (minimum is 8 characters)'
       end
 
-      test 'user has many products' do
-        assert_respond_to @user, :products
-      end
+      test 'should create a user with valid attributes' do
+        user = build(:user, email: 'test@example.com', password: 'password123', role: 'customer')
 
-      test 'user has many product_customizations' do
-        assert_respond_to @user, :product_customizations
-      end
-
-      test 'user has one cart' do
-        assert_respond_to @user, :cart
+        assert user.valid?
       end
     end
   end

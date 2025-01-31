@@ -6,17 +6,22 @@ module Api
   module V1
     class ProductCustomizationsControllerTest < ActionDispatch::IntegrationTest
       setup do
-        @user = create(:user_v1, password: 'password', password_confirmation: 'password')
+        @user = create(:user, password: 'password', password_confirmation: 'password')
         post api_v1_login_url, params: { email: @user.email, password: 'password' }
         json_response = JSON.parse(response.body)
         @token = json_response['user']['token']
-        @product = create(:product_v1, user: @user)
-        @combination_rule = create(:combination_rule_v1, product: @product)
+        @product = create(:product, user: @user)
+        @combination_rule = create(:combination_rule, product: @product)
       end
 
       # Test for show action when product customization exists
       test 'should show product customization' do
-        product_customization = create(:product_customization_v1, user: @user, product: @product)
+        product_customization = create(
+          :product_customization,
+          selected_options: [{ 'part' => 'part', 'option' => 'Option', 'price' => 211.0 }],
+          user: @user,
+          product: @product
+        )
 
         get api_v1_product_customization_url(@product.id),
             headers: { Authorization: "Bearer #{@token}" }
@@ -36,7 +41,6 @@ module Api
         assert_equal 'No customizations found', json_response['message']
       end
 
-      # Test for unauthorized access to the create action (without token)
       test 'should return unauthorized without token for create' do
         product_customization_params = {
           product_id: @product.id,

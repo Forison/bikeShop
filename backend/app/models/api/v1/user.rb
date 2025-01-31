@@ -11,9 +11,12 @@ module Api
       validates :email, presence: true, uniqueness: true
       validates :password, length: { minimum: 8 }, allow_nil: true
 
-      validates :role, inclusion: { in: %w[admin customer], message: '%<value>s is not a valid role' }
+      enum :role, { customer: 'customer', admin: 'admin' }
+      after_initialize :set_default_role, if: :new_record?
 
-      enum role: { customer: 'customer', admin: 'admin' }, _default: :customer
+      def set_default_role
+        self.role ||= :customer
+      end
     end
   end
 end

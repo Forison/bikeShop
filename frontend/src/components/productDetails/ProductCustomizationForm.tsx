@@ -116,6 +116,7 @@ const ProductCustomizationForm: React.FC<Props> = ({ productPartNames, productOp
     product_id: id,
     selected_options: existingCustomizations?.length > 0 ? existingCustomizations : [{ part: '', option: '', price: 0 }]
   }
+
   return (
     <>
       <Formik

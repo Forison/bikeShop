@@ -119,3 +119,38 @@ rails test
 # Model Section
 
 ![Data Model](erd.png)
+
+Trade Offs
+
+In general, I wasn't too sure about the depth I had to go to realized the full implementation as there were some gray areas in the problem stated that I wish, we could have clarified as we would in real life project. I chose the tech stack i am proficient in, which also align with the job description. I had wanted to use a design from behance for the UI but theat would have taken too much time, hence I resulted in using my own intuition.
+Determine how the base_price of the product was challenging because it was not clear in the description IMO. The first part options of each products assuming there is an ideal case where every product will have product options for each parts. All well said and done. In reall world situation aligning with PM would have brought much clarity and sve development time.
+
+On the technically I had to consider:
+
+Database Design (Relational vs. NoSQL)
+
+1. Trade-off: I chose a relational database (PostgreSQL) to model the relationships between products, parts, and pricing. A NoSQL database like MongoDB could provide more flexibility in handling nested product configurations, but it would make querying stock availability and enforcing constraints (e.g., prohibited combinations) more complex.
+This was also easy decision because Factorial alreaady uses PSQL.
+
+2. Pricing Calculation (Precomputed vs. Dynamic)
+Trade-off: I opted for dynamic pricing calculations instead of precomputing all possible price variations. Although this can impact the server, it makes it more flexible for the admin.
+
+3. API Design (Monolith vs. Microservices)
+Trade-off: I built a Microservice API to keep development scalable. A microservices approach would allow independent scaling of inventory, pricing, and orders. This is was too be inline with Factorial architechture
+
+4. Frontend-Backend Communication (REST vs. GraphQL)
+Trade-off: I used REST APIs for simplicity and ease of integration. GraphQL could have optimized data fetching by reducing over-fetching/under-fetching, but it requires additional client-side handling. This was a tough decision because Factorial uses both paradigms so I had to settle for simplicity.
+
+5. UI Implementation (Server-side Rendering vs. Client-side Rendering)
+Trade-off: I chose client-side rendering (React) to improve interactivity, especially for product customization and creation. However, server-side rendering (SSR) could have enhanced SEO and faster initial loads but this is just a test project not a real one.
+
+5. Validation of Prohibited Combinations (Database vs. Business Logic Layer)
+Trade-off: I handled invalid part combinations at the business logic level instead of enforcing them in the database. This makes rules easier to update but requires additional validation in the backend before processing an order. Initially I also have a stock validation which required users to select options that are related to specific parts. But the price rule require defeats that.
+
+6. Product Customization Logic (Hardcoded vs. Configurable Rules)
+Trade-off: I implemented configurable business rules so Marcus can define prohibited combinations dynamically. A simpler but less scalable alternative would have been hardcoding these rules in the code. Hardcoding would require the developer assistance for changes and would have offered marcus less flexiblity.
+
+7. Stock availability
+Trade-off: I had to manually display the number of product available for each product. there was not clear way in the requirement as to how the stock would diminish since the flow reaches cart. An item in cart is not technically sold hence it's still avalaible.
+
+It was a nice task and I wish it became a real project there are many amelioration we could here

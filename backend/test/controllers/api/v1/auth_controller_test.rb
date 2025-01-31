@@ -8,8 +8,8 @@ module Api
       include FactoryBot::Syntax::Methods
 
       setup do
-        @user = create(:user_v1, email: Faker::Internet.unique.email, password: 'password123',
-                                 password_confirmation: 'password123')
+        @user = create(:user, email: Faker::Internet.unique.email, password: 'password123',
+                              password_confirmation: 'password123')
       end
 
       test 'should register a new user' do

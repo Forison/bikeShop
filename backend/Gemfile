@@ -27,6 +27,10 @@ group :development, :test do
   gem 'rubocop-factory_bot', require: false
 end
 
+group :test do
+  gem 'shoulda-matchers', '~> 6.0'
+end
+
 group :development do
   gem 'listen', '~> 3.3'
   gem 'spring'
