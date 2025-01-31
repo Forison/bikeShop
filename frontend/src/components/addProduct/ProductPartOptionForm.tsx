@@ -101,7 +101,6 @@ const ProductPartOptionForm: React.FC = () => {
                         </Row>
                       ))}
 
-                      {/* Add More Options Button */}
                       <Button
                         variant='outline-secondary'
                         onClick={() => addOption({ part: '', price: 0, quantity: 0 })}
@@ -112,8 +111,6 @@ const ProductPartOptionForm: React.FC = () => {
                     </>
                   )}
                 </FieldArray>
-
-                {/* Remove Part Button */}
                 {values.product_parts.length > 1 && (
                   <Button
                     variant="danger"

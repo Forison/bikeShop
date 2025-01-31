@@ -12,36 +12,7 @@ import NavBar from '../productDetails/NavBar'
 import { getCookie } from '../../utils/helper/tokenHandler'
 import './Index.scss'
 import AlertBanner from '../../presentational/AlertBanner'
-
-const initialValues: Shop = {
-  product: {
-    id: 0,
-    name: '',
-    category: '',
-    description: '',
-    base_price: 0,
-    quantity: 0
-  },
-  product_parts: [{
-    name: '',
-    part_options: [{ name: '', price: 0, quantity: 0 }],
-  }],
-  price_rule: {
-    part_option: [
-      {
-        condition_key: '',
-        condition_value: '',
-        price_modifier: 0,
-      },
-    ],
-  },
-  combination_rule: {
-    prohibited_options: [{
-      part: '',
-      option: ''
-    }],
-  },
-}
+import { PRODUCT_INITIAL_VALUES } from '../../utils/constants'
 
 const Index: React.FC = () => {
   const navigate = useNavigate()
@@ -101,7 +72,7 @@ const Index: React.FC = () => {
           {(message && variant) && <AlertBanner variant={variant} message={message} />}
           <Col lg={6}>
             <Formik
-              initialValues={initialValues}
+              initialValues={PRODUCT_INITIAL_VALUES}
               validationSchema={combinedValidationSchema}
               onSubmit={handleSubmit}
             >

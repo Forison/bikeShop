@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import CartItem from '../../presentational/Item'
-import CheckoutSection from './CheckoutSection'
+import CheckoutSection from '../../presentational/CheckoutSection'
 import NavBar from '../productDetails/NavBar'
 import { getCookie } from '../../utils/helper/tokenHandler'
 import { Product } from '../../utils/interface/shop'

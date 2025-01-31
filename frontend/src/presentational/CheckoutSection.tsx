@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Card, Button } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 
@@ -8,6 +8,7 @@ interface Prop {
 
 const CheckoutSection: React.FC<Prop> = ({ total }) => {
   const navigate = useNavigate()
+
   return (
     <>
       <h2 className='mb-4'>Checkout</h2>
@@ -31,4 +32,4 @@ const CheckoutSection: React.FC<Prop> = ({ total }) => {
   )
 }
 
-export default CheckoutSection
+export default memo(CheckoutSection)
