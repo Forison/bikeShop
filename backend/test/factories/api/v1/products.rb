@@ -13,6 +13,5 @@ FactoryBot.define do
     trait :with_combination_rule do
       association :combination_rule, factory: :combination_rule
     end
-
   end
 end
