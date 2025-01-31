@@ -10,6 +10,7 @@ class ApplicationController < ActionController::API
   private
 
   def authenticate_request
+    # debugger
     return if current_user
 
     render json: { error: 'Unauthorized' }, status: :unauthorized
