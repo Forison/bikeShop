@@ -7,5 +7,5 @@ export const setCookie = (token: string): void => {
 }
 
 export const logout = (): void => {
-  document.cookie = 'access_token=; path=/; max-age=0'
+  document.cookie = 'access_token=XXXXXXX; path=/; max-age=0'
 }

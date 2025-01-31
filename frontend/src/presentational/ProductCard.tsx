@@ -6,6 +6,7 @@ import './ProductCard.scss'
 import { OUT_OF_STOCK } from '../utils/helper/magicDefinitions'
 import StockStatus from './StockStatus'
 import { AuthContext } from '../components/authentication/AuthContext'
+import DeleteButton from './DeleteButton'
 
 interface Props {
   quantity: number
@@ -20,7 +21,7 @@ const ProductCard: React.FC<Props> = ({ id, name, category, description, price, 
   const authContext = useContext(AuthContext)
   const navigate = useNavigate()
   const user = authContext?.user
-
+  const deleteUrl = `${process.env.REACT_APP_BACK_END_API_URL}/api/v1/products/${id}`
   return (
     <Card className='product-card'>
       <div className='image-container'>
@@ -39,7 +40,10 @@ const ProductCard: React.FC<Props> = ({ id, name, category, description, price, 
           {category}
         </Card.Text>
         <div className='product-price'>€{price}</div>
-        <StockStatus quantity={quantity} />
+        <div className='d-flex justify-content-between align-items-center'>
+          <StockStatus quantity={quantity} />
+          {user?.admin && <DeleteButton deleteUrl={deleteUrl} />}
+        </div>
         {(quantity !== OUT_OF_STOCK && user?.name) &&
           <Button variant='secondary' className='add-to-cart-btn mt-2' onClick={() => navigate(`/detail/${id}`)}>
             View detail

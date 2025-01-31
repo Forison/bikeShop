@@ -12,7 +12,7 @@ const NavBar: React.FC = () => {
   const user = authContext?.user
   const handleLogout = () => {
     logout()
-    navigate('login')
+    window.location.reload()
   }
   return (
     <Navbar bg='light' expand='lg'>
