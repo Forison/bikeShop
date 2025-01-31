@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Container, Row, Col } from 'react-bootstrap'
+import { Container, Row, Col, Alert } from 'react-bootstrap'
 import CartItem from '../../presentational/Item'
 import CheckoutSection from '../../presentational/CheckoutSection'
 import NavBar from '../productDetails/NavBar'
 import { getCookie } from '../../utils/helper/tokenHandler'
 import { Product } from '../../utils/interface/shop'
 import Loading from '../../presentational/Loading'
+import AlertBanner from '../../presentational/AlertBanner'
 
 interface CartItemProp {
   cart_item: Product
@@ -45,6 +46,8 @@ const Index: React.FC = () => {
             <h2 className='mb-4'>Cart</h2>
             {loading ? (
               <Loading />
+            ) : products.length === 0 ? (
+              <AlertBanner variant='info' message='Your cart is currently empty' />
             ) : (
               products?.map((product, index) => (
                 <React.Fragment key={index}>
@@ -61,7 +64,9 @@ const Index: React.FC = () => {
             )}
           </Col>
           <Col md={4}>
-            <CheckoutSection total={products[0]?.cart_item_price_summation} />
+            {products.length > 0 && (
+              <CheckoutSection total={products[0]?.cart_item_price_summation} />
+            )}
           </Col>
         </Row>
       </Container>
