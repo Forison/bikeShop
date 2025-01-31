@@ -4,12 +4,16 @@ import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../authentication/AuthContext'
 
 import './NavBar.scss'
+import { logout } from '../../utils/helper/tokenHandler'
 
 const NavBar: React.FC = () => {
   const navigate = useNavigate()
   const authContext = useContext(AuthContext)
   const user = authContext?.user
-
+  const handleLogout = () => {
+    logout()
+    navigate('login')
+  }
   return (
     <Navbar bg='light' expand='lg'>
       <Container>
@@ -40,7 +44,7 @@ const NavBar: React.FC = () => {
                 )}
                 <NavDropdown.Item onClick={() => navigate('/carts')}>Cart</NavDropdown.Item>
                 <hr />
-                <NavDropdown.Item onClick={() => console.log('hello world')}>Logout</NavDropdown.Item>
+                <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
               </>
             ) : (
               <NavDropdown.Item onClick={() => navigate('/login')}>LogIn</NavDropdown.Item>

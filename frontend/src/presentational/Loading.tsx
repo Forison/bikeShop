@@ -1,7 +1,13 @@
-import React, { memo } from 'react'
-import Spinner from 'react-bootstrap/Spinner'
+import React from 'react'
+import { Col, Spinner } from 'react-bootstrap'
 
 const Loading: React.FC = () => {
-  return <Spinner animation='grow' />
+  return (
+    <Col className="text-center">
+      <Spinner animation="border" variant="primary" />
+      <p>Loading...</p>
+    </Col>
+  );
 }
-export default memo(Loading)
+
+export default Loading

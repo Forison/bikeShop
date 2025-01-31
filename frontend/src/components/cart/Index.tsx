@@ -5,6 +5,7 @@ import CheckoutSection from './CheckoutSection'
 import NavBar from '../productDetails/NavBar'
 import { getCookie } from '../../utils/helper/tokenHandler'
 import { Product } from '../../utils/interface/shop'
+import Loading from '../../presentational/Loading'
 
 interface CartItemProp {
   cart_item: Product
@@ -14,6 +15,7 @@ interface CartItemProp {
 
 const Index: React.FC = () => {
   const [products, setProducts] = useState<CartItemProp[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_BACK_END_API_URL}/api/v1/carts`, {
@@ -24,8 +26,14 @@ const Index: React.FC = () => {
       }
     })
       .then((response) => response.json())
-      .then((data) => { setProducts(data) })
-      .catch((error) => { console.error('Error:', error) })
+      .then((data) => {
+        setProducts(data)
+        setLoading(false)
+      })
+      .catch((error) => {
+        console.error('Error:', error)
+        setLoading(false)
+      })
   }, [])
 
   return (
@@ -35,18 +43,22 @@ const Index: React.FC = () => {
         <Row>
           <Col md={8}>
             <h2 className='mb-4'>Cart</h2>
-            {products?.map((product, index) => (
-              <React.Fragment key={index}>
-                <CartItem
-                  imageUrl='https://ahoybikes.com/wp-content/uploads/2022/12/HYBRID-BIKE-1-500x330.jpg.webp'
-                  title={product.cart_item.name}
-                  price={product.cart_item.base_price}
-                  quantity={product.cart_item.quantity}
-                  description={product.cart_item.description}
-                  cart_item_id={product.cart_item_id}
-                />
-              </React.Fragment>
-            ))}
+            {loading ? (
+              <Loading />
+            ) : (
+              products?.map((product, index) => (
+                <React.Fragment key={index}>
+                  <CartItem
+                    imageUrl='https://ahoybikes.com/wp-content/uploads/2022/12/HYBRID-BIKE-1-500x330.jpg.webp'
+                    title={product.cart_item.name}
+                    price={product.cart_item.base_price}
+                    quantity={product.cart_item.quantity}
+                    description={product.cart_item.description}
+                    cart_item_id={product.cart_item_id}
+                  />
+                </React.Fragment>
+              ))
+            )}
           </Col>
           <Col md={4}>
             <CheckoutSection total={products[0]?.cart_item_price_summation} />
