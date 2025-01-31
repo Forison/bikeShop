@@ -76,7 +76,7 @@ yarn install
 Make sure you have a .env file inside the frontend dir
 Add
 `
-REACT_APP_BACK_END_API_URL=http://localhost:{port}
+REACT_APP_BACK_END_API_URL=http://localhost:{port_number}
 `
 
 then start the frontend by running
@@ -84,6 +84,7 @@ then start the frontend by running
 `
 yarn start
 `
+
 
 Tab 2(backend)
 `
@@ -122,14 +123,14 @@ rails test
 
 Trade Offs
 
-In general, I wasn't too sure about the depth I had to go to realized the full implementation as there were some gray areas in the problem stated that I wish, we could have clarified as we would in real life project. I chose the tech stack i am proficient in, which also align with the job description. I had wanted to use a design from behance for the UI but theat would have taken too much time, hence I resulted in using my own intuition.
-Determine how the base_price of the product was challenging because it was not clear in the description IMO. The first part options of each products assuming there is an ideal case where every product will have product options for each parts. All well said and done. In reall world situation aligning with PM would have brought much clarity and sve development time.
+Overall, I was uncertain about the level of detail required to fully implement the solution due to some ambiguities in the problem statement. In a real-world project, I would have sought clarification on these areas to ensure alignment. I selected a tech stack I am proficient in, which also aligns with the job description. Initially, I considered using a design from Behance for the UI, but it would have taken too much time, so I relied on my own intuition instead.
 
-On the technically I had to consider:
+Determining the base price of the product was challenging, as the description was unclear on this point. The product options were defined based on an ideal case where each product has options for all its parts, which seemed reasonable at the time. However, in a real-world scenario, collaborating with a product manager would have provided much-needed clarity and saved development time.
 
-Database Design (Relational vs. NoSQL)
+Technically, the following trade-offs were made:
 
-1. Trade-off: I chose a relational database (PostgreSQL) to model the relationships between products, parts, and pricing. A NoSQL database like MongoDB could provide more flexibility in handling nested product configurations, but it would make querying stock availability and enforcing constraints (e.g., prohibited combinations) more complex.
+1. Database Design (Relational vs. NoSQL)
+Trade-off: I chose a relational database (PostgreSQL) to model the relationships between products, parts, and pricing. A NoSQL database like MongoDB could provide more flexibility in handling nested product configurations, but it would make querying stock availability and enforcing constraints (e.g., prohibited combinations) more complex.
 This was also easy decision because Factorial alreaady uses PSQL.
 
 2. Pricing Calculation (Precomputed vs. Dynamic)
@@ -153,4 +154,7 @@ Trade-off: I implemented configurable business rules so Marcus can define prohib
 7. Stock availability
 Trade-off: I had to manually display the number of product available for each product. there was not clear way in the requirement as to how the stock would diminish since the flow reaches cart. An item in cart is not technically sold hence it's still avalaible.
 
-It was a nice task and I wish it became a real project there are many amelioration we could here
+8. Image Upload
+Trade-off: Images used in the application are all static images, image uploads wasn't part of the requirement, so in other for me to be faster in delivering a solution which focuses on the requirement mainly within the specified time was key. Image uploads for users and products would have made the site much cooler, but would have given extra task for tester and developer.
+
+It was a nice task and I wish it became a real project there are many amelioration we could here. There are more room for refactory and optimization but i gues my time is up, if given the opportunity those could be done as well.
