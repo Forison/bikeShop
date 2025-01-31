@@ -5,7 +5,6 @@ import { Shop } from '../../utils/interface/shop'
 
 const PriceRuleForm: React.FC = () => {
   const { values } = useFormikContext<Shop>()
-  console.log(values)
   return (
     <>
       <h1 className='text-center'>Add Price Rule</h1>

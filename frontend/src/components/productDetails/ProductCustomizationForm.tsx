@@ -44,6 +44,7 @@ const ProductCustomizationForm: React.FC<Props> = ({ productPartNames, productOp
 
   const handleApplyCustomization = (isChecked: boolean, values: ProductCustomizations) => {
     setApplyCustomization(isChecked)
+
     if (isChecked) {
       fetch(`${process.env.REACT_APP_BACK_END_API_URL}/api/v1/product_customizations`, {
         method: 'POST',
@@ -53,15 +54,29 @@ const ProductCustomizationForm: React.FC<Props> = ({ productPartNames, productOp
         },
         body: JSON.stringify(values),
       })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log('Success:', data)
+        .then(async (response) => {
+          const data = await response.json()
+          if (!response.ok) {
+            throw new Error(data.errors ? data.errors.join(', ') : 'Something went wrong')
+          }
+          setMessage('Your product customization was successfull')
+          setVariant('success')
+          setTimeout(() => {
+            setMessage('')
+            setVariant('')
+          }, 2000)
         })
         .catch((error) => {
-          console.error('Error:', error)
+          setMessage(error.message)
+          setVariant('danger')
+          setTimeout(() => {
+            setMessage('')
+            setVariant('')
+          }, 2000)
         })
     }
   }
+
 
   const handleSubmit = () => {
     fetch(`${process.env.REACT_APP_BACK_END_API_URL}/api/v1/cart_items`, {

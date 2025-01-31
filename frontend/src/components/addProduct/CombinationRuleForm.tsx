@@ -4,8 +4,8 @@ import { Button, Form } from 'react-bootstrap'
 import { Shop } from '../../utils/interface/shop'
 
 const CombinationRuleForm: React.FC = () => {
-  const { values, errors } = useFormikContext<Shop>()
-  console.log(errors)
+  const { values } = useFormikContext<Shop>()
+
   return (
     <>
       <h1 className='text-center'>Add Combination Rules</h1>

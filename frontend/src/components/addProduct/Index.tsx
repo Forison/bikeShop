@@ -120,7 +120,7 @@ const Index: React.FC = () => {
                       </Button>
                     )}
                     {step === 4 && (
-                      <Button variant='success' type='submit'>
+                      <Button variant='success' type='submit' disabled={isSubmitting}>
                         Submit
                       </Button>
                     )}

@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :product_part_option, class: 'Api::V1::ProductPartOption' do
-    name { 'MyString' }
-    product_part { nil }
-    base_price { 'MyString' }
-    stock_status { false }
+  factory :product_part_option_v1, class: 'Api::V1::ProductPartOption' do
+    association :product_part
+    name { 'Fat bike wheel option' }
+    quantity { 1 }
+    price { 100.00 }
   end
 end

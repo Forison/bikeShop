@@ -49,7 +49,7 @@ User can also remove specific product from their cart.
 This page is based on my own imagination. The product page display all the products created by the admin. Since this is a demo, some of the products are generated from seeding.
 
 # Add to cart action
-User may customize a product and click on the "Add to cart" button to add.
+User may customize a product and click on the "Add to cart" button to add cart or may not customize at all before adding to cart.
 
 # How to start the application
 
@@ -85,7 +85,7 @@ then start the frontend by running
 yarn start
 `
 
-Tab 1(backend)
+Tab 2(backend)
 `
 cd backend
 `
@@ -116,3 +116,6 @@ Also run the test by running the command
 `
 rails test
 `
+# Model Section
+
+![Data Model](erd.png)

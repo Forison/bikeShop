@@ -29,15 +29,15 @@ const App: React.FC = () => {
           />
           <Route
             path='/detail/:id'
-            element={user?.name ? <Navigate to='/' replace /> : <ProductDetail />}
+            element={<ProductDetail />}
           />
           <Route
             path='/carts'
-            element={user?.name ? <Navigate to='/' replace /> : <Cart />}
+            element={<Cart />}
           />
           <Route
             path='/Product'
-            element={user?.name ? <Navigate to='/' replace /> : <Product />}
+            element={<Product />}
           />
           <Route
             path='/'

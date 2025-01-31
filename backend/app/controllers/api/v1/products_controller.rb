@@ -4,8 +4,8 @@ module Api
   module V1
     class ProductsController < ApplicationController
       before_action :authenticate_request, except: :index
-      before_action :set_product, only: %i[show update destroy add_part]
-      before_action :authorize_product, only: %i[update destroy]
+      before_action :set_product, only: %i[show destroy]
+      before_action :authorize_product, only: :destroy
 
       def index
         @products = Product.all
@@ -32,14 +32,6 @@ module Api
         render json: @product, status: :ok
       end
 
-      def update
-        if @product.update(product_params)
-          render json: @product, status: :ok
-        else
-          render json: { errors: @product.errors.full_messages }, status: :unprocessable_entity
-        end
-      end
-
       def destroy
         if @product.destroy
           render json: { message: 'Product was successfully removed' }, status: :ok
@@ -62,10 +54,10 @@ module Api
 
       def product_params
         params.require(:product).permit(
-          :id,
           :name,
           :category,
           :description,
+          :quantity,
           product_part: [:part, { part_options: %i[part_option price] }],
           price_rule: [part_option: %i[condition_value condition_key price_modifier]],
           combination_rule: [:product_id, { prohibited_options: %i[part option] }]

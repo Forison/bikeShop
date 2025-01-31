@@ -17,19 +17,20 @@ module Api
       private
 
       def validate_option(selected, prohibitions)
-        selected.each do |key, value|
-          next if key == 'price'
+        part = selected['part']
+        option = selected['option']
+        return unless part && option
 
-          check_prohibitions(key, value, prohibitions)
-        end
+        check_prohibitions(part, option, prohibitions)
       end
 
-      def check_prohibitions(key, value, prohibitions)
+      def check_prohibitions(part, option, prohibitions)
         prohibitions.each do |prohibition|
-          if prohibition.key?(key) && prohibition[key].include?(value)
-            return @errors.add(:combination_rule_violation,
-                               "Prohibited option selected: #{key} = #{value}")
-          end
+          next unless prohibition[part] == option
+
+          @errors.add(:combination_rule_violation,
+                      "Prohibited option selected: #{part} = #{option}")
+          return
         end
       end
     end

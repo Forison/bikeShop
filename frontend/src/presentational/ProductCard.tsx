@@ -7,7 +7,6 @@ import { OUT_OF_STOCK } from '../utils/helper/magicDefinitions'
 import StockStatus from './StockStatus'
 import { AuthContext } from '../components/authentication/AuthContext'
 
-
 interface Props {
   quantity: number
   name: string

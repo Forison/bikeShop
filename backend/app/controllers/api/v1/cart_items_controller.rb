@@ -9,7 +9,7 @@ module Api
       before_action :find_product, only: :create
 
       def create
-        cart_item = @cart.cart_items.new({ product: @product })
+        cart_item = @cart.cart_items.new(cart_item_params)
         if cart_item.save
           render json: cart_item, status: :created
         else

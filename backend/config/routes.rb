@@ -3,7 +3,7 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      resources :products, only: %i[index create show update destroy]
+      resources :products, only: %i[index create show destroy]
       resources :product_customizations, only: %i[create show]
       resources :product_parts, only: %i[create update destroy]
       resources :combination_rules, only: %i[create update destroy]

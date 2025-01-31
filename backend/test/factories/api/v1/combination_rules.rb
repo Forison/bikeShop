@@ -1,9 +1,14 @@
 # frozen_string_literal: true
 
 FactoryBot.define do
-  factory :combination_rule do
-    condition { '' }
-    prohibited_options { '' }
-    product_type { 'MyString' }
+  factory :combination_rule_v1, class: 'Api::V1::CombinationRule' do
+    association :product
+
+    prohibited_options do
+      [
+        { 'Rim' => 'fat bike wheels' },
+        { 'Frame type' => 'Full-suspension' }
+      ]
+    end
   end
 end
