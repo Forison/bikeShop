@@ -1,10 +1,10 @@
 import React from 'react'
 import { Row, Col, Button } from 'react-bootstrap'
 
-import './MoterraNeoComponent.scss'
+import './MainScreen.scss'
 import { useNavigate } from 'react-router-dom'
 
-const MoterraNeoComponent: React.FC = () => {
+const MainScreen: React.FC = () => {
   const navigate = useNavigate()
   return (
     <Row className='align-items-center'>
@@ -40,4 +40,4 @@ const MoterraNeoComponent: React.FC = () => {
   )
 }
 
-export default MoterraNeoComponent
+export default MainScreen

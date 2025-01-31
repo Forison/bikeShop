@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Col, Container, Row, Spinner } from 'react-bootstrap'
+import { Col, Container, Row } from 'react-bootstrap'
 import NavBar from './productDetails/NavBar'
-import MoterraNeoComponent from '../presentational/MoterraNeoComponent'
+import MainScreen from '../presentational/MainScreen'
 import ProductCard from '../presentational/ProductCard'
 import { getCookie } from '../utils/helper/tokenHandler'
 import { Product } from '../utils/interface/shop'
@@ -9,7 +9,7 @@ import Loading from '../presentational/Loading'
 
 const Home: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([])
-  const [loading, setLoading] = useState<boolean>(true) // Add loading state
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_BACK_END_API_URL}/api/v1/products`, {
@@ -22,7 +22,7 @@ const Home: React.FC = () => {
       .then(response => response.json())
       .then(data => {
         setProducts(data)
-        setLoading(false) // Set loading to false once data is fetched
+        setLoading(false)
       })
       .catch((error) => {
         console.log(error)
@@ -35,7 +35,7 @@ const Home: React.FC = () => {
       <NavBar />
       <Container fluid className='shop-container d-flex '>
         <Row>
-          <MoterraNeoComponent />
+          <MainScreen />
         </Row>
       </Container>
       <Container
