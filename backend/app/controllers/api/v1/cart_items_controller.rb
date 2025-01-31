@@ -10,6 +10,10 @@ module Api
 
       def create
         cart_item = @cart.cart_items.new(cart_item_params)
+        cart_item.product_customization = Api::V1::ProductCustomization.find_by(
+          id: params[:cart_item][:product_customization_id]
+        )
+
         if cart_item.save
           render json: cart_item, status: :created
         else
@@ -41,7 +45,7 @@ module Api
       end
 
       def cart_item_params
-        params.require(:cart_item).permit(:id, :product_id)
+        params.require(:cart_item).permit(:id, :product_id, :product_customization_id)
       end
     end
   end

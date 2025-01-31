@@ -8,10 +8,6 @@ interface Prop {
 
 const CheckoutSection: React.FC<Prop> = ({ total }) => {
   const navigate = useNavigate()
-  const handleOrder = () => {
-    
-  }
-
   return (
     <>
       <h2 className='mb-4'>Checkout</h2>
@@ -21,10 +17,9 @@ const CheckoutSection: React.FC<Prop> = ({ total }) => {
           <span>${total}</span>
         </div>
 
-        <Button 
+        <Button
           variant='warning'
           className='w-100 my-2'
-          onClick={handleOrder}
         >
           Order now
         </Button>

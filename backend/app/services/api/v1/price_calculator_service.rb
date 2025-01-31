@@ -3,8 +3,9 @@
 module Api
   module V1
     class PriceCalculatorService
-      def initialize(selected_options)
+      def initialize(selected_options, errors)
         @selected_options = selected_options
+        @errors = errors
       end
 
       def call
@@ -26,15 +27,15 @@ module Api
       def apply_price_modifier(selected)
         total_modifier = 0
 
-        selected.each do |selected_key, selected_value|
+        selected.each_key do |selected_key|
           next if selected_key == 'price'
 
           price_rule = Api::V1::PriceRule.find_by(
-            condition_key: selected_key,
-            condition_value: selected_value
+            condition_key: selected['part'],
+            condition_value: selected['option']
           )
 
-          total_modifier += price_rule.price_modifier if price_rule
+          total_modifier += price_rule.price_modifier.to_f
         end
 
         total_modifier

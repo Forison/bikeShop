@@ -21,6 +21,7 @@ const ProductCustomizationForm: React.FC<Props> = ({ productPartNames, productOp
   const [message, setMessage] = useState('')
   const [applyCustomization, setApplyCustomization] = useState(false)
   const { id } = useParams<{ id?: string }>()
+  const [productCustomizationId, setProductCustomizationId] = useState(null)
   const [existingCustomizations, setExistingCustomizations] = useState<any | null>(null)
 
   useEffect(() => {
@@ -59,6 +60,7 @@ const ProductCustomizationForm: React.FC<Props> = ({ productPartNames, productOp
           if (!response.ok) {
             throw new Error(data.errors ? data.errors.join(', ') : 'Something went wrong')
           }
+          setProductCustomizationId(data.id)
           setMessage('Your product customization was successfull')
           setVariant('success')
           setTimeout(() => {
@@ -85,7 +87,10 @@ const ProductCustomizationForm: React.FC<Props> = ({ productPartNames, productOp
         'Content-Type': 'application/json',
         Authorization: `Bearer ${getCookie()}`,
       },
-      body: JSON.stringify({ product_id: id }),
+      body: JSON.stringify({
+        product_id: id,
+        product_customization_id: productCustomizationId,
+      }),
     })
       .then((response) => response.json())
       .then(() => {

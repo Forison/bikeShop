@@ -5,17 +5,19 @@ module Api
     class CartItem < ApplicationRecord
       belongs_to :cart
       belongs_to :product
+      belongs_to :product_customization, optional: true
 
-      after_save :add_item_price_to_cart_total
-      after_destroy :remove_item_price_from_total
+      after_save :update_cart_total
+      after_destroy :update_cart_total
 
-      def add_item_price_to_cart_total
-        cart.total += product.product_customization&.total_price || product.base_price
-        cart.save
+      def item_price
+        product_customization&.total_price || product.base_price
       end
 
-      def remove_item_price_from_total
-        cart.total -= product.product_customization&.total_price || product.base_price
+      private
+
+      def update_cart_total
+        cart.total = cart.cart_items.sum(&:item_price)
         cart.save
       end
     end

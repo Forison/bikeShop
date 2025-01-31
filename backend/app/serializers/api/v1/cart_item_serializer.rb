@@ -6,13 +6,14 @@ module Api
       attributes :cart_item_id, :cart_item, :cart_item_price_summation
 
       def cart_item
+        product = object.product
         {
-          id: object.product.id,
-          name: object.product.name,
-          category: object.product.category,
-          description: object.product.description,
-          quantity: object.product.quantity,
-          base_price: object.product.product_customization&.total_price || object.product.base_price
+          id: product.id,
+          name: product.name,
+          category: product.category,
+          description: product.description,
+          quantity: product.quantity,
+          base_price: calculate_base_price(product)
         }
       end
 
@@ -22,6 +23,12 @@ module Api
 
       def cart_item_id
         object.id
+      end
+
+      private
+
+      def calculate_base_price(product)
+        object.product_customization&.total_price || product.base_price
       end
     end
   end

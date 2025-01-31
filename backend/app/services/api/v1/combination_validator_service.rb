@@ -28,9 +28,8 @@ module Api
         prohibitions.each do |prohibition|
           next unless prohibition[part] == option
 
-          @errors.add(:combination_rule_violation,
-                      "Prohibited option selected: #{part} = #{option}")
-          return
+          return @errors.add(:combination_rule_violation,
+                             "Prohibited option selected: #{part} = #{option}")
         end
       end
     end

@@ -5,6 +5,7 @@ module Api
     class ProductCustomization < ApplicationRecord
       belongs_to :product
       belongs_to :user
+      has_many :cart_items, dependent: :nullify
 
       validates :selected_options, presence: true
       validate :validate_stock, :validate_combinations
@@ -14,7 +15,7 @@ module Api
       private
 
       def calculate_total_price
-        total_price = Api::V1::PriceCalculatorService.new(selected_options).call
+        total_price = Api::V1::PriceCalculatorService.new(selected_options, errors).call
         self.total_price = total_price
       end
 
