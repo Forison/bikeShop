@@ -1,46 +1,118 @@
-# Getting Started with Create React App
+# A website for bicycle shop and beyond
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+In this project I built a website for a bicycle shop, the site is scaled to also handle the sale of other items like:
+skis, surfboards, roller skates, or other related sport items.
 
-## Available Scripts
+# Technologies
 
-In the project directory, you can run:
+- React
+- TypeScript
+- Scss
+- Ruby on Rails
+- postgresql
 
-### `yarn start`
+# Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Register
+- Login
+- Product page
+- Add to cart action
+- New product creation
+- Adding a new part choice
+- Setting prices
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+# Workflows
 
-### `yarn test`
+This project has two main workflows, one for user with role admin, and the other for any customer who visits the page.
+Per the requirement, the Owner of the site, Marcus would be perform administrative duties, and these duties include managing the website by adding adding and removing products
+from the website.
+The addition of products to the website follows 4 steps, namely: Adding the product details, adding the various part of the website, adding the options available for each part,
+Adding a price rule for dynamic pricing, adding a combination rule for restricted or prohibited combinations. 
+Each of the steps mentioned are each capture by a unique entities, thus, ensuring flexibility and modularity. The details of the entities would be outlined in the data models
+section.
+The Admin can also remove product he no longer want based on his own discretion.
+Customer on the other hand can browse to product, customize if the want and add their product of choice to their cart.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Main user actions
 
-### `yarn build`
+Admin: Create product, add part, add part options, set price rule, set combination rule and remove product from website.
+Each product has a base price, which is determine by the part options specify by the admin, currently the price of each part sum up to the base price of the product.
+Each product have their own price rule to enable dynamic pricing as specify in the requirement, this also set by admin at the creation of the product.
+Each product have their own part combination rule, which determine which combinations are valid or otherwise.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Customer: Browse through product, customize product and add product to cart by clicking add to cart button.
+The price of a product is based on the customization of made by the customer. The customer may also add a product to their cart without customization.
+User can then view all the products added to their cart, by clicking the dropdown menu in the profile image or name.
+User can also remove specific product from their cart.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# Product Page
+This page is based on my own imagination. The product page display all the products created by the admin. Since this is a demo, some of the products are generated from seeding.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# Add to cart action
+User may customize a product and click on the "Add to cart" button to add.
 
-### `yarn eject`
+# How to start the application
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+clone the application to your local machine.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+`
+git clone git@github.com:Forison/bikeShop.git
+`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+The application is made up of two directory(parts) the backend and the frontend.
+Open two tabs in your terminal, one tab should point to the backend and the other to frontend
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Tab 1(frontend)
+`
+cd frontend
+`
 
-## Learn More
+install the dependencies by running
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+`
+yarn install
+`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Make sure you have a .env file inside the frontend dir
+Add
+`
+REACT_APP_BACK_END_API_URL=http://localhost:{port}
+`
+
+then start the frontend by running
+
+`
+yarn start
+`
+
+Tab 1(backend)
+`
+cd backend
+`
+install the dependencies by running
+
+`
+bundle or bundle install
+`
+create the database 
+
+`
+rails db:create
+`
+
+Add migration by running
+
+`
+rails db:migrate
+`
+
+now start the backend by running
+
+`
+rails s --port={port_number}
+`
+Also run the test by running the command
+
+`
+rails test
+`
