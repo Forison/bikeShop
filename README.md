@@ -151,8 +151,8 @@ Trade-off: I handled invalid part combinations at the business logic level inste
 6. Product Customization Logic (Hardcoded vs. Configurable Rules)
 Trade-off: I implemented configurable business rules so Marcus can define prohibited combinations dynamically. A simpler but less scalable alternative would have been hardcoding these rules in the code. Hardcoding would require the developer assistance for changes and would have offered marcus less flexiblity.
 
-7. Stock availability
-Trade-off: I had to manually display the number of product available for each product. there was not clear way in the requirement as to how the stock would diminish since the flow reaches cart. An item in cart is not technically sold hence it's still avalaible.
+7. Stock Management (Real-time vs. Manually)
+Trade-off: Checking stock availability in real-time ensures accuracy, but it can add extra database queries. Since this is a small project I opted for manually reloading the to enable use to see the change in the quantity of the product. I areas where stock available displays, require the use to reload the page, thus triggering re-render of the DOM, which in turn trigger a refetching of newly update quantity value.
 
 8. Image Upload
 Trade-off: Images used in the application are all static images, image uploads wasn't part of the requirement, so in other for me to be faster in delivering a solution which focuses on the requirement mainly within the specified time was key. Image uploads for users and products would have made the site much cooler, but would have given extra task for tester and developer.

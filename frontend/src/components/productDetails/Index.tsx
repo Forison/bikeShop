@@ -14,7 +14,7 @@ const Index: React.FC = () => {
       <Container>
         <Row className='justify-content-center'>
           <Col md={6}>
-            {/* <ImageGallery /> */}
+            <ImageGallery />
           </Col>
           <Col md={6}>
             <ProductCustomization />

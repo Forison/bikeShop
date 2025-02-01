@@ -25,6 +25,7 @@ const ImageGallery: React.FC = () => {
           />
         </Col>
       </Row>
+
       <Row className='justify-content-center thumbnails'>
         {images.slice(1).map((img) => (
           <Col key={img.id} xs={3} md={2} className='text-center'>
