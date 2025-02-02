@@ -11,7 +11,8 @@ module Api
       def create
         cart_item = @cart.cart_items.new(cart_item_params)
         cart_item.product_customization = Api::V1::ProductCustomization.find_by(
-          id: params[:cart_item][:product_customization_id]
+          id: params[:cart_item][:product_customization_id],
+          user_id: @current_user.id
         )
 
         if cart_item.save
