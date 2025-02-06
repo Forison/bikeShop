@@ -3,6 +3,7 @@
 module Api
   module V1
     class Product < ApplicationRecord
+      default_scope { order(created_at: :desc) }
       belongs_to :user
       has_many :product_parts, dependent: :destroy
       has_many :product_part_options, through: :product_parts

@@ -9,7 +9,8 @@ module Api
       before_action :find_product, only: :create
 
       def create
-        cart_item = @cart.cart_items.new(cart_item_params)
+        cart_item = @cart.cart_items.includes(:product, :product_customization).new(cart_item_params)
+
         cart_item.product_customization = Api::V1::ProductCustomization.find_by(
           id: params[:cart_item][:product_customization_id],
           user_id: @current_user.id
@@ -23,7 +24,7 @@ module Api
       end
 
       def destroy
-        if @cart_item.destroy
+        if @cart_item.includes(:product, :product_customization).destroy
           render json: { message: 'Cart item removed successfully' }, status: :ok
         else
           render json: { errors: @cart_item.errors.full_messages }, status: :unprocessable_entity

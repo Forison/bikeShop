@@ -8,7 +8,7 @@ module Api
       before_action :authorize_product, only: :destroy
 
       def index
-        @products = Product.all
+        @products = Api::V1::Product.includes(:product_parts, :product_part_options).all
         render json: @products, status: :ok
       end
 
@@ -43,7 +43,7 @@ module Api
       private
 
       def set_product
-        @product = Product.find(params[:id])
+        @product = Api::V1::Product.includes(product_parts: :product_part_options).find(params[:id])
       rescue ActiveRecord::RecordNotFound
         render json: { error: 'Product not found' }, status: :not_found
       end
@@ -58,7 +58,7 @@ module Api
           :category,
           :description,
           :quantity,
-          product_part: [:part, { part_options: %i[part_option price] }],
+          product_part: [:name, { part_options: %i[name price quantity] }],
           price_rule: [part_option: %i[condition_value condition_key price_modifier]],
           combination_rule: [:product_id, { prohibited_options: %i[part option] }]
         )

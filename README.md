@@ -19,7 +19,8 @@ skis, surfboards, roller skates, or other related sport items.
 - Add to cart action
 - New product creation
 - Adding a new part choice
-- Setting prices
+- Setting price rules
+- Setting combination violation
 
 # Workflows
 

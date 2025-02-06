@@ -64,4 +64,29 @@ Rails.application.configure do
 
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
+  #
+  config.after_initialize do
+    Bullet.enable = true
+
+    # Alert in the log
+    Bullet.bullet_logger = true
+
+    # Alert in the browser console
+    Bullet.console = true
+
+    # Add notifications in Rails logs
+    Bullet.rails_logger = true
+
+    # Raise errors for N+1 queries
+    Bullet.raise = true # Disable in production
+
+    # Detect N+1 queries
+    Bullet.n_plus_one_query_enable = true
+
+    # Detect when eager loading is missing
+    Bullet.unused_eager_loading_enable = true
+
+    # Detect when eager loading is unnecessary
+    Bullet.counter_cache_enable = true
+  end
 end

@@ -6,7 +6,7 @@ module Api
       before_action :authenticate_request
 
       def index
-        cart_items = @current_user.cart&.cart_items || []
+        cart_items = @current_user.cart&.cart_items&.includes(:product, :product_customization) || []
         render json: cart_items, status: :ok
       end
     end

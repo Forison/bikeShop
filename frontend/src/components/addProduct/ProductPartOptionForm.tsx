@@ -5,7 +5,6 @@ import { Shop } from '../../utils/interface/shop'
 
 const ProductPartOptionForm: React.FC = () => {
   const { values } = useFormikContext<Shop>()
-
   return (
     <>
       <h1 className='text-center'>Add Product Part Option</h1>
@@ -18,15 +17,15 @@ const ProductPartOptionForm: React.FC = () => {
                 <h5>Part {partIndex + 1}</h5>
 
                 {/* Part Name Input */}
-                <Form.Group controlId={`product_parts[${partIndex}].part`} className='mb-3'>
+                <Form.Group controlId={`product_parts[${partIndex}].name`} className='mb-3'>
                   <Form.Label>Part Name</Form.Label>
                   <Field
-                    name={`product_parts[${partIndex}].part`}
+                    name={`product_parts[${partIndex}].name`}
                     type='text'
                     as={Form.Control}
                     placeholder='Enter part name'
                   />
-                  <ErrorMessage name={`product_parts[${partIndex}].part`} component='div' className='text-danger' />
+                  <ErrorMessage name={`product_parts[${partIndex}].name`} component='div' className='text-danger' />
                 </Form.Group>
 
                 {/* Nested FieldArray for Options */}
@@ -40,13 +39,13 @@ const ProductPartOptionForm: React.FC = () => {
                             <Form.Group controlId={`option-${partIndex}-${optionIndex}`} className='mb-0'>
                               <Form.Label>Option</Form.Label>
                               <Field
-                                name={`product_parts[${partIndex}].part_options[${optionIndex}].part`}
+                                name={`product_parts[${partIndex}].part_options[${optionIndex}].name`}
                                 type='text'
                                 as={Form.Control}
                                 placeholder='Enter option name'
                               />
                               <ErrorMessage
-                                name={`product_parts[${partIndex}].part_options[${optionIndex}].part`}
+                                name={`product_parts[${partIndex}].part_options[${optionIndex}].name`}
                                 component='div'
                                 className='text-danger'
                               />

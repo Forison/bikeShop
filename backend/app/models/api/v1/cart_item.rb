@@ -15,7 +15,7 @@ module Api
       end
 
       def update_cart_total
-        cart.total = cart.cart_items.sum(&:item_price)
+        cart.cart_items.includes(:product, :product_customization).sum(&:item_price)
         cart.save
       end
 

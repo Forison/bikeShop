@@ -74,9 +74,9 @@ export const combinedValidationSchema = Yup.object({
     part_options: Yup.array()
       .of(
         Yup.object({
-          part: Yup.string().required('Part Option is required'),
-          price: Yup.number().required('Price is required').min(0, 'Price must be greater than or equal to 0'),
-          quantity: Yup.number().required('Price is required').min(0, 'Price must be greater than or equal to 0'),
+          name: Yup.string().required('Part Option name is required'),
+          price: Yup.number().required('Part option price is required').min(0, 'Price must be greater than or equal to 0'),
+          quantity: Yup.number().required('Part option price is required').min(0, 'Price must be greater than or equal to 0'),
         })
       )
       .min(1, 'At least one part option is required')

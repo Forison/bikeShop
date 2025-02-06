@@ -28,10 +28,10 @@ module Api
 
       def create_product_parts
         @params[:product_parts].each do |part_data|
-          product_part = @product.product_parts.create(name: part_data[:part])
+          product_part = @product.product_parts.create(name: part_data[:name])
           part_data[:part_options].each do |option_params|
             product_part.product_part_options.create(
-              name: option_params[:part],
+              name: option_params[:name],
               price: option_params[:price],
               quantity: option_params[:quantity]
             )
