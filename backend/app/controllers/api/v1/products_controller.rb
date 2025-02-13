@@ -15,16 +15,12 @@ module Api
       def create
         product = @current_user.products.new(product_params)
         authorize product
-        if product.save
-          service = ProductCreationService.new(product, params)
+        service = ProductCreationService.new(product, params)
 
-          if service.call
-            render json: product, status: :created
-          else
-            render json: { errors: 'Failed to create associated data' }, status: :unprocessable_entity
-          end
+        if service.call
+          render json: product, status: :created
         else
-          render json: { errors: product.errors.full_messages }, status: :unprocessable_entity
+          render json: { errors: 'Product could not be created' }, status: :unprocessable_entity
         end
       end
 

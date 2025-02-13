@@ -12,11 +12,6 @@ module Api
       validates :password, length: { minimum: 8 }, allow_nil: true
 
       enum :role, { customer: 'customer', admin: 'admin' }
-      after_initialize :set_default_role, if: :new_record?
-
-      def set_default_role
-        self.role ||= :customer
-      end
     end
   end
 end

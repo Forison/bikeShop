@@ -10,8 +10,9 @@ module Api
 
       def call
         ActiveRecord::Base.transaction do
-          create_product_base_price
+          @product.save
           create_product_parts
+          create_product_base_price
           create_price_rules
           create_combination_rules
         end
@@ -28,10 +29,10 @@ module Api
 
       def create_product_parts
         @params[:product_parts].each do |part_data|
-          product_part = @product.product_parts.create(name: part_data[:name])
+          product_part = @product.product_parts.create(name: part_data[:part])
           part_data[:part_options].each do |option_params|
             product_part.product_part_options.create(
-              name: option_params[:name],
+              name: option_params[:part],
               price: option_params[:price],
               quantity: option_params[:quantity]
             )

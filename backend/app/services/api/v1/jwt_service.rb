@@ -13,7 +13,7 @@ module Api
       def self.decode(token)
         decoded = JWT.decode(token, SECRET_KEY, true, { algorithm: 'HS256' })
         decoded.first
-      rescue JWT::DecodeError
+      rescue JWT::ExpiredSignature, JWT::DecodeError
         nil
       end
     end

@@ -1,22 +1,21 @@
 import React, { useState } from 'react'
 import { Form, Button, Container, Row, Col } from 'react-bootstrap'
-import { useNavigate } from 'react-router-dom'
 import { Formik } from 'formik'
 import { User } from '../../utils/interface/user'
 import { registrationSchema } from '../../utils/schema'
 import AlertBanner from '../../presentational/AlertBanner'
+import { setCookie } from '../../utils/helper/tokenHandler'
 
 
 const initialValues: User = {
   name: '',
   email: '',
   password: '',
-  passwordConfirmation: '',
+  password_confirmation: '',
   role: ''
 }
 
 const Register: React.FC = () => {
-  const navigate = useNavigate()
   const [variant, setVariant] = useState('')
   const [message, setMessage] = useState('')
 
@@ -29,15 +28,16 @@ const Register: React.FC = () => {
       body: JSON.stringify({ user: values }),
     })
       .then(response => response.json())
-      .then(() => {
-        setMessage('Registration successful, login now')
+      .then(data => {
+        console.log(data)
+        setCookie(data.user.token)
+        setMessage('Account creation successful')
         setVariant('success')
         setTimeout(() => {
-          navigate('/login')
+          window.location.href = '/'
         }, 2000)
       })
       .catch((error) => {
-        setMessage('OOps! something went wrong try again')
         setVariant('danger')
         console.error('Error:', error)
       })
@@ -124,14 +124,14 @@ const Register: React.FC = () => {
                   <Form.Label>Password</Form.Label>
                   <Form.Control
                     type='password'
-                    name='passwordConfirmation'
-                    value={values.passwordConfirmation}
+                    name='password_confirmation'
+                    value={values.password_confirmation}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    isInvalid={!!(touched.passwordConfirmation && errors.passwordConfirmation)}
+                    isInvalid={!!(touched.password_confirmation && errors.password_confirmation)}
                   />
                   <Form.Control.Feedback type='invalid'>
-                    {errors.passwordConfirmation}
+                    {errors.password_confirmation}
                   </Form.Control.Feedback>
                 </Form.Group>
 

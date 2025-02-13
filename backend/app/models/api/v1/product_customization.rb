@@ -8,15 +8,17 @@ module Api
       has_many :cart_items, dependent: :nullify
 
       validates :selected_options, presence: true
-      validate :validate_combinations
+      validate :validate_stock, :validate_combinations
 
       before_save :calculate_total_price
-
-      private
 
       def calculate_total_price
         total_price = Api::V1::PriceCalculatorService.new(selected_options, errors).call
         self.total_price = total_price
+      end
+
+      def validate_stock
+        Api::V1::StockValidatorService.new(selected_options, errors).call
       end
 
       def validate_combinations

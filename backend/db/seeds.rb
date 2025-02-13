@@ -1,8 +1,8 @@
 require 'open-uri'
 
 user = Api::V1::User.create!(
-  email: Faker::Internet.unique.email,
-  password: 'password123',
+  email: 'admin@admin.com',
+  password: '11111111',
   name: Faker::Name.name,
   role: :admin
 )
@@ -70,7 +70,7 @@ bicycles = ['BMX Bike',
     }
   }
 
-  product = Api::V1::Product.create!(
+  product = Api::V1::Product.new(
     name: bicycles[n],
     user_id: user.id,
     description: Faker::Lorem.sentence,
