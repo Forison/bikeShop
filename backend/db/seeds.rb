@@ -21,41 +21,41 @@ bicycles = ['BMX Bike',
   product_params = {
     product_parts: [
       {
-        part: 'Frame type',
+        name: 'Frame type',
         part_options: [
-          { part: 'Full-suspension', price: (n + 1) * 61.0, quantity: 5 },
-          { part: 'diamond', price: 15.0, quantity: 3 },
-          { part: 'step-through', price: 52.0, quantity: 3 }
+          { name: 'Full-suspension', price: (n + 1) * 61.0, quantity: 5 },
+          { name: 'diamond', price: 15.0, quantity: 3 },
+          { name: 'step-through', price: 52.0, quantity: 3 }
         ]
       },
       {
-        part: 'Frame finish',
+        name: 'Frame finish',
         part_options: [
-          { part: 'Matte', price: (n + 1) * 43.0, quantity: 5 },
-          { part: 'shiny', price: 67.0, quantity: 3 }
+          { name: 'Matte', price: (n + 1) * 43.0, quantity: 5 },
+          { name: 'shiny', price: 67.0, quantity: 3 }
         ]
       },
       {
-        part: 'Wheels',
+        name: 'Wheels',
         part_options: [
-          { part: 'Road wheels', price: (n + 1) * 98.0, quantity: 5 },
-          { part: 'mountain wheels', price: 114.0, quantity: 3 },
-          { part: 'fat bike wheels', price: 211.0, quantity: 3 }
+          { name: 'Road wheels', price: (n + 1) * 98.0, quantity: 5 },
+          { name: 'mountain wheels', price: 114.0, quantity: 3 },
+          { name: 'fat bike wheels', price: 211.0, quantity: 3 }
         ]
       },
       {
-        part: 'Rim color',
+        name: 'Rim color',
         part_options: [
-          { part: 'blue', price: (n + 1) * 111.0, quantity: 5 },
-          { part: 'black', price: 153.0, quantity: 3 },
-          { part: 'Red', price: 155.0, quantity: 3 }
+          { name: 'blue', price: (n + 1) * 111.0, quantity: 5 },
+          { name: 'black', price: 153.0, quantity: 3 },
+          { name: 'Red', price: 155.0, quantity: 3 }
         ]
       },
       {
-        part: 'Chain',
+        name: 'Chain',
         part_options: [
-          { part: '8-speed chain', price: (n + 1) * 10.0, quantity: 5 },
-          { part: 'Single-speed chain', price: 15.0, quantity: 3 }
+          { name: '8-speed chain', price: (n + 1) * 10.0, quantity: 5 },
+          { name: 'Single-speed chain', price: 15.0, quantity: 3 }
         ]
       }
 

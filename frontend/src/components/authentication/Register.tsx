@@ -29,7 +29,6 @@ const Register: React.FC = () => {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data)
         setCookie(data.user.token)
         setMessage('Account creation successful')
         setVariant('success')

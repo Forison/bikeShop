@@ -16,7 +16,6 @@ module Api
         product = @current_user.products.new(product_params)
         authorize product
         service = ProductCreationService.new(product, params)
-
         if service.call
           render json: product, status: :created
         else
@@ -50,10 +49,12 @@ module Api
 
       def product_params
         params.require(:product).permit(
+          :id,
           :name,
           :category,
           :description,
           :quantity,
+          :base_price,
           product_part: [:name, { part_options: %i[name price quantity] }],
           price_rule: [part_option: %i[condition_value condition_key price_modifier]],
           combination_rule: [:product_id, { prohibited_options: %i[part option] }]
