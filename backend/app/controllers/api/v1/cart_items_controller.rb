@@ -17,6 +17,7 @@ module Api
         )
 
         if cart_item.save
+          Api::V1::ReduceProductQuantityService.new(cart_item.product).call
           render json: cart_item, status: :created
         else
           render json: { errors: cart_item.errors.full_messages }, status: :unprocessable_entity
@@ -24,7 +25,9 @@ module Api
       end
 
       def destroy
-        if @cart_item.includes(:product, :product_customization).destroy
+        if @cart_item.destroy
+          Api::V1::RestoreProductQuantityService.new(@cart_item.product).call
+          
           render json: { message: 'Cart item removed successfully' }, status: :ok
         else
           render json: { errors: @cart_item.errors.full_messages }, status: :unprocessable_entity
