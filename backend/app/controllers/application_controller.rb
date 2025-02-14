@@ -10,7 +10,6 @@ class ApplicationController < ActionController::API
   private
 
   def authenticate_request
-    
     return if current_user
 
     render json: { error: 'Unauthorized' }, status: :unauthorized
@@ -21,6 +20,7 @@ class ApplicationController < ActionController::API
     decoded_token = Api::V1::JwtService.decode(token)
 
     return unless decoded_token
+
     Api::V1::User.find_by(id: decoded_token['user_id'], token: token)
   end
 

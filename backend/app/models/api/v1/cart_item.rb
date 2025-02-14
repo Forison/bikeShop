@@ -15,18 +15,18 @@ module Api
       end
 
       def update_cart_total
-        cart.cart_items.includes(:product, :product_customization).sum(&:item_price)
+        cart.total = cart.cart_items.sum(&:item_price)
         cart.save
       end
 
+      MAX_RETRIES = 3
+
       def reduce_product_quantity
-        product.quantity -= 1
-        product.save
+        Api::V1::ReduceProductQuantityService.new(product).call
       end
 
       def restore_product_quantity
-        product.quantity += 1
-        product.save
+        Api::V1::RestoreProductQuantityService.new(product).call
       end
     end
   end

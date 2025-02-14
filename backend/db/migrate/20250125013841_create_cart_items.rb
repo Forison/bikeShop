@@ -9,5 +9,6 @@ class CreateCartItems < ActiveRecord::Migration[7.2]
       t.integer :quantity, null: false, default: 0
       t.timestamps
     end
+    add_index :cart_items, %i[cart_id product_id]
   end
 end
