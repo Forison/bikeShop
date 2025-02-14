@@ -38,7 +38,7 @@ module Api
 
       def handle_missing_option_error(product)
         @errors.add(:stock_status,
-                    "The part #{product['part']} is not an option for #{product['option']}")
+                    "The part #{product['part']} is not an option for #{product['option']}.")
       end
 
       def handle_out_of_stock_error(product)

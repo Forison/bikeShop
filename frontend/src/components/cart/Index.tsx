@@ -58,6 +58,7 @@ const Index: React.FC = () => {
                     quantity={product.cart_item.quantity}
                     description={product.cart_item.description}
                     cart_item_id={product.cart_item_id}
+                    showStockStatus={false}
                   />
                 </React.Fragment>
               ))

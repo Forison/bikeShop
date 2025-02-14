@@ -10,6 +10,7 @@ interface Props {
   price: number
   description?: string
   quantity: number
+  showStockStatus?: boolean
 }
 
 const Item: React.FC<Props> = ({
@@ -19,6 +20,7 @@ const Item: React.FC<Props> = ({
   price,
   quantity,
   description,
+  showStockStatus = true
 }) => {
   const deleteUrl = `${process.env.REACT_APP_BACK_END_API_URL}/api/v1/cart_items/${cart_item_id}`
   return (
@@ -32,7 +34,7 @@ const Item: React.FC<Props> = ({
             <Card.Title>{title}</Card.Title>
             <Card.Text className='text-muted'>${price}</Card.Text>
             <Card.Text className='text-muted'>{description}</Card.Text>
-            <StockStatus quantity={quantity} />
+            {showStockStatus && <StockStatus quantity={quantity} />}
             <div className='d-flex justify-content-end mt-2'>
               <DeleteButton deleteUrl={deleteUrl} />
             </div>

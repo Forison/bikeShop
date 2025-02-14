@@ -5,11 +5,11 @@ import { useParams } from 'react-router-dom'
 import { ProductPart, ProductPartOption } from '../../utils/interface/shop'
 import { ProductCustomizations } from '../../utils/interface/customization'
 import { getCookie } from '../../utils/helper/tokenHandler'
+import AlertBanner from '../../presentational/AlertBanner'
+import { areAllCustomizationsValid } from '../../utils/helper/areAllCustomizationsValid'
 
 import 'font-awesome/css/font-awesome.min.css'
 import './ProductCustomizationForm.scss'
-import AlertBanner from '../../presentational/AlertBanner'
-
 
 interface Props {
   productPartNames: ProductPart[]
@@ -17,9 +17,10 @@ interface Props {
 }
 
 const ProductCustomizationForm: React.FC<Props> = ({ productPartNames, productOptions }) => {
-  const [variant, setVariant] = useState('')
-  const [message, setMessage] = useState('')
-  const [applyCustomization, setApplyCustomization] = useState(false)
+  const [variant, setVariant] = useState<string>('')
+  const [message, setMessage] = useState<string>('')
+  const [combinationError, setCombinationError] = useState<string>('')
+  const [formValue, setFormValue] = useState<ProductCustomizations>()
   const { id } = useParams<{ id?: string }>()
   const [productCustomizationId, setProductCustomizationId] = useState(null)
   const [existingCustomizations, setExistingCustomizations] = useState<any | null>(null)
@@ -43,17 +44,15 @@ const ProductCustomizationForm: React.FC<Props> = ({ productPartNames, productOp
     }
   }, [id])
 
-  const handleApplyCustomization = (isChecked: boolean, values: ProductCustomizations) => {
-    setApplyCustomization(isChecked)
-
-    if (isChecked) {
+  useEffect(() => {
+    if (areAllCustomizationsValid(formValue)) {
       fetch(`${process.env.REACT_APP_BACK_END_API_URL}/api/v1/product_customizations`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${getCookie()}`,
         },
-        body: JSON.stringify(values),
+        body: JSON.stringify(formValue),
       })
         .then(async (response) => {
           const data = await response.json()
@@ -61,24 +60,11 @@ const ProductCustomizationForm: React.FC<Props> = ({ productPartNames, productOp
             throw new Error(data.errors ? data.errors.join(', ') : 'Something went wrong')
           }
           setProductCustomizationId(data.id)
-          setMessage('Your product customization was successfull')
-          setVariant('success')
-          setTimeout(() => {
-            setMessage('')
-            setVariant('')
-          }, 2000)
+          setCombinationError('')
         })
-        .catch((error) => {
-          setMessage(error.message)
-          setVariant('danger')
-          setTimeout(() => {
-            setMessage('')
-            setVariant('')
-          }, 2000)
-        })
+        .catch((error) => { setCombinationError(error.message) })
     }
-  }
-
+  }, [formValue])
 
   const handleSubmit = () => {
     fetch(`${process.env.REACT_APP_BACK_END_API_URL}/api/v1/cart_items`, {
@@ -124,78 +110,83 @@ const ProductCustomizationForm: React.FC<Props> = ({ productPartNames, productOp
         enableReinitialize
         onSubmit={handleSubmit}
       >
-        {({ values, setFieldValue }) => (
-          <FormikForm>
-            <FieldArray
-              name='selected_options'
-              render={(arrayHelpers) => (
-                <>
-                  {values.selected_options.map((product: any, index: any) => (
-                    <Row className='dropdown-section mb-3' key={index}>
-                      <Col xs={4}>
-                        <h6>Part Name</h6>
-                        <select
-                          className='form-control'
-                          value={product.part}
-                          onChange={(e) => {
-                            const selectedPart = e.target.value
-                            setFieldValue(`selected_options[${index}].part`, selectedPart)
-                            setFieldValue(`selected_options[${index}].option`, '')
-                            setFieldValue(`selected_options[${index}].price`, 0)
-                            setFieldValue(`product_id`, id)
-                          }}
-                        >
-                          <option value=''>Select Part</option>
-                          {productPartNames.map((part, id) => (
-                            <option key={id} value={part.name}>
-                              {part.name}
-                            </option>
-                          ))}
-                        </select>
-                      </Col>
-
-                      <Col xs={5}>
-                        <h6>Part Option</h6>
-                        <select
-                          className='form-control'
-                          value={product.option}
-                          onChange={(e) => {
-                            const selectedOption = e.target.value
-                            const selectedPrice = productOptions.find(
-                              (option) => option.name === selectedOption
-                            )?.price || 0
-                            setFieldValue(`selected_options[${index}].option`, selectedOption)
-                            setFieldValue(`selected_options[${index}].price`, selectedPrice)
-                          }}
-                        >
-                          <option value=''>Select Option</option>
-                          {productOptions.map((option, idx) => (
-                            <option key={idx} value={option.name}>
-                              {option.name}
-                            </option>
-                          ))}
-                        </select>
-                      </Col>
-
-                      <Col xs={2} className='text-center mt-4'>
-                        {product.price > 0 && <div className='price'>€ {product.price}</div>}
-                      </Col>
-
-                      <Col xs={1} className='text-center'>
-                        {values.selected_options.length > 1 && (
-                          <Button
-                            variant='outline-danger'
-                            onClick={() => arrayHelpers.remove(index)}
-                            className='remove-btn mt-4'
+        {({ values, setFieldValue, isSubmitting }) => {
+          setFormValue(values)
+          return (
+            <FormikForm>
+              <FieldArray
+                name='selected_options'
+                render={(arrayHelpers) => (
+                  <>
+                    {values.selected_options.map((product: any, index: any) => (
+                      <Row className='dropdown-section mb-3' key={index}>
+                        <Col xs={4}>
+                          <h6>Part Name</h6>
+                          <select
+                            className='form-control'
+                            value={product.part}
+                            onChange={(e) => {
+                              const selectedPart = e.target.value
+                              setFieldValue(`selected_options[${index}].part`, selectedPart)
+                              setFieldValue(`selected_options[${index}].option`, '')
+                              setFieldValue(`selected_options[${index}].price`, 0)
+                              setFieldValue(`product_id`, id)
+                            }}
                           >
-                            <i className='fa fa-times' />
-                          </Button>
-                        )}
-                      </Col>
-                    </Row>
-                  ))}
+                            <option value=''>Select Part</option>
+                            {productPartNames.map((part, id) => (
+                              <option key={id} value={part.name}>
+                                {part.name}
+                              </option>
+                            ))}
+                          </select>
+                        </Col>
 
-                  <div className='d-flex justify-content-between align-items-center mb-3'>
+                        <Col xs={5}>
+                          <h6>Part Option</h6>
+                          <select
+                            className='form-control'
+                            value={product.option}
+                            onChange={(e) => {
+                              const selectedOption = e.target.value
+                              const selectedPrice = productOptions.find(
+                                (option) => option.name === selectedOption
+                              )?.price || 0
+                              setFieldValue(`selected_options[${index}].option`, selectedOption)
+                              setFieldValue(`selected_options[${index}].price`, selectedPrice)
+                            }}
+                          >
+                            <option value=''>Select Option</option>
+                            {productOptions.map((option, idx) => (
+                              <option key={idx} value={option.name}>
+                                {option.name}
+                              </option>
+                            ))}
+                          </select>
+                        </Col>
+
+                        <Col xs={2} className='text-center mt-4'>
+                          {product.price > 0 && <div className='price'>€ {product.price}</div>}
+                        </Col>
+
+                        <Col xs={1} className='text-center'>
+                          {values.selected_options.length > 1 && (
+                            <Button
+                              variant='outline-danger'
+                              onClick={() => arrayHelpers.remove(index)}
+                              className='remove-btn mt-4'
+                            >
+                              <i className='fa fa-times' />
+                            </Button>
+                          )}
+                        </Col>
+                      </Row>
+                    ))}
+                    {combinationError &&
+                      <Form.Control.Feedback type='invalid' className='d-block text-center'>
+                        {combinationError}
+                      </Form.Control.Feedback>
+                    }
                     <div className='d-flex align-items-center'>
                       <Button
                         variant='outline-light'
@@ -206,27 +197,23 @@ const ProductCustomizationForm: React.FC<Props> = ({ productPartNames, productOp
                       </Button>
                       <small className='ml-2'>Add More</small>
                     </div>
-                    <Form.Check
-                      type='switch'
-                      id='apply-customization'
-                      label='Apply Customization'
-                      checked={applyCustomization}
-                      onChange={(e) => {
-                        handleApplyCustomization(e.target.checked, values)
-                      }}
-                    />
-                  </div>
-                </>
-              )}
-            />
+                  </>
+                )}
+              />
 
-            <div className='actions mt-3'>
-              <Button variant='outline-dark' type='submit' className='add-to-cart'>
-                Add to Cart
-              </Button>
-            </div>
-          </FormikForm>
-        )}
+              <div className='actions mt-3'>
+                <Button
+                  variant='outline-dark'
+                  type='submit'
+                  className='add-to-cart'
+                  disabled={!!combinationError || isSubmitting}
+                >
+                  Add to Cart
+                </Button>
+              </div>
+            </FormikForm>
+          )
+        }}
       </Formik>
       {(message && variant) && <AlertBanner message={message} variant={variant} />}
     </>
