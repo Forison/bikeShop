@@ -33,8 +33,7 @@ module Api
           part_data[:part_options].each do |option_params|
             product_part.product_part_options.create(
               name: option_params[:name],
-              price: option_params[:price],
-              quantity: option_params[:quantity]
+              price: option_params[:price]
             )
           end
         end

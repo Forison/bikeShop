@@ -5,7 +5,6 @@ class CreateProductPartOptions < ActiveRecord::Migration[7.2]
     create_table :product_part_options do |t|
       t.references :product_part, null: false, foreign_key: true
       t.string :name, null: false
-      t.integer :quantity, null: false, default: 0
       t.decimal :price, precision: 10, scale: 2, null: false, default: 0.0
 
       t.timestamps

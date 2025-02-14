@@ -55,7 +55,7 @@ module Api
           :description,
           :quantity,
           :base_price,
-          product_part: [:name, { part_options: %i[name price quantity] }],
+          product_part: [:name, { part_options: %i[name price] }],
           price_rule: [part_option: %i[condition_value condition_key price_modifier]],
           combination_rule: [:product_id, { prohibited_options: %i[part option] }]
         )

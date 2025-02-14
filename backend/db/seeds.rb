@@ -23,7 +23,7 @@ bicycles = ['BMX Bike',
       {
         name: 'Frame type',
         part_options: [
-          { name: 'Full-suspension', price: (n + 1) * 61.0, quantity: 5 },
+          { name: 'Full-suspension', price: (n + 1) * 61.0},
           { name: 'diamond', price: 15.0, quantity: 3 },
           { name: 'step-through', price: 52.0, quantity: 3 }
         ]
@@ -31,31 +31,31 @@ bicycles = ['BMX Bike',
       {
         name: 'Frame finish',
         part_options: [
-          { name: 'Matte', price: (n + 1) * 43.0, quantity: 5 },
+          { name: 'Matte', price: (n + 1) * 43.0},
           { name: 'shiny', price: 67.0, quantity: 3 }
         ]
       },
       {
         name: 'Wheels',
         part_options: [
-          { name: 'Road wheels', price: (n + 1) * 98.0, quantity: 5 },
-          { name: 'mountain wheels', price: 114.0, quantity: 3 },
-          { name: 'fat bike wheels', price: 211.0, quantity: 3 }
+          { name: 'Road wheels', price: (n + 1) * 98.0},
+          { name: 'mountain wheels', price: 114.0},
+          { name: 'fat bike wheels', price: 211.0}
         ]
       },
       {
         name: 'Rim color',
         part_options: [
-          { name: 'blue', price: (n + 1) * 111.0, quantity: 5 },
-          { name: 'black', price: 153.0, quantity: 3 },
-          { name: 'Red', price: 155.0, quantity: 3 }
+          { name: 'blue', price: (n + 1) * 111.0},
+          { name: 'black', price: 153.0},
+          { name: 'Red', price: 155.0}
         ]
       },
       {
         name: 'Chain',
         part_options: [
-          { name: '8-speed chain', price: (n + 1) * 10.0, quantity: 5 },
-          { name: 'Single-speed chain', price: 15.0, quantity: 3 }
+          { name: '8-speed chain', price: (n + 1) * 10.0},
+          { name: 'Single-speed chain', price: 15.0}
         ]
       }
 

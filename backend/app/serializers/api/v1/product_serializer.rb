@@ -19,7 +19,6 @@ module Api
           {
             id: part.id,
             name: part.name,
-            quantity: part.quantity,
             price: part.price
           }
         end

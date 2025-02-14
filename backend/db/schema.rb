@@ -67,7 +67,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_25_013841) do
   create_table "product_part_options", force: :cascade do |t|
     t.bigint "product_part_id", null: false
     t.string "name", null: false
-    t.integer "quantity", default: 0, null: false
     t.decimal "price", precision: 10, scale: 2, default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
