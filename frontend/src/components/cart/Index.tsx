@@ -7,6 +7,7 @@ import { getCookie } from '../../utils/helper/tokenHandler'
 import { Product } from '../../utils/interface/shop'
 import Loading from '../../presentational/Loading'
 import AlertBanner from '../../presentational/AlertBanner'
+import TooltipButton from '../../presentational/TooltipButton'
 
 interface CartItemProp {
   cart_item: Product
@@ -36,7 +37,7 @@ const Index: React.FC = () => {
         setLoading(false)
       })
   }, [])
-  // console.log(products)
+
   return (
     <>
       <NavBar />
@@ -59,6 +60,8 @@ const Index: React.FC = () => {
                     description={product.cart_item.description}
                     cart_item_id={product.cart_item_id}
                     showStockStatus={false}
+                    price_rule={product.cart_item.price_rule}
+                    customization_options={product.cart_item.customization_options}
                   />
                 </React.Fragment>
               ))

@@ -13,7 +13,9 @@ module Api
           category: product.category,
           description: product.description,
           quantity: product.quantity,
-          base_price: calculate_base_price(product)
+          base_price: calculate_base_price(product),
+          customization_options:,
+          price_rule:
         }
       end
 
@@ -25,7 +27,13 @@ module Api
         object.id
       end
 
-      private
+      def price_rule
+        object.price_rule
+      end
+
+      def customization_options
+        object.selected_customization_parts
+      end
 
       def calculate_base_price(product)
         object.product_customization&.total_price || product.base_price

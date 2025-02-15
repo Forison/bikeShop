@@ -2,6 +2,9 @@ import React from 'react'
 import { Row, Col, Card } from 'react-bootstrap'
 import StockStatus from './StockStatus'
 import DeleteButton from './DeleteButton'
+import TooltipButton from './TooltipButton'
+import { PriceRule } from '../utils/interface/shop'
+import { ProductCustomizations } from '../utils/interface/customization'
 
 interface Props {
   cart_item_id: number
@@ -11,6 +14,8 @@ interface Props {
   description?: string
   quantity: number
   showStockStatus?: boolean
+  price_rule?: PriceRule | undefined
+  customization_options?: any
 }
 
 const Item: React.FC<Props> = ({
@@ -20,7 +25,9 @@ const Item: React.FC<Props> = ({
   price,
   quantity,
   description,
-  showStockStatus = true
+  showStockStatus = true,
+  price_rule,
+  customization_options = [],
 }) => {
   const deleteUrl = `${process.env.REACT_APP_BACK_END_API_URL}/api/v1/cart_items/${cart_item_id}`
   return (
@@ -38,6 +45,12 @@ const Item: React.FC<Props> = ({
             <div className='d-flex justify-content-end mt-2'>
               <DeleteButton deleteUrl={deleteUrl} />
             </div>
+            {(customization_options?.length > 0) &&
+              <TooltipButton
+                price_rule={price_rule}
+                customization_options={customization_options}
+              />
+            }
           </Card.Body>
         </Col>
       </Row>

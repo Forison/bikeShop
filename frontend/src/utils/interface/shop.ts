@@ -1,3 +1,5 @@
+import { ProductCustomizations } from "./customization"
+
 export interface Product {
   id: number
   name: string
@@ -5,6 +7,8 @@ export interface Product {
   description: string
   base_price: number
   quantity: number
+  price_rule?: PriceRule
+  customization_options?: ProductCustomizations
 }
 
 export interface ProductPartOption {
@@ -24,7 +28,7 @@ interface PriceRulePartOption {
   price_modifier: number
 }
 
-interface PriceRule {
+export interface PriceRule {
   part_option: PriceRulePartOption[]
 }
 

@@ -3,7 +3,7 @@
 module Api
   module V1
     class ProductPartOptionSerializer < ActiveModel::Serializer
-      attributes :name, :price, :quantity
+      attributes :name, :price
     end
   end
 end
