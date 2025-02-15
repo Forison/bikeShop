@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Container, Row, Col, Alert } from 'react-bootstrap'
+import { Container, Row, Col } from 'react-bootstrap'
 import CartItem from '../../presentational/Item'
 import CheckoutSection from '../../presentational/CheckoutSection'
 import NavBar from '../productDetails/NavBar'
@@ -36,7 +36,7 @@ const Index: React.FC = () => {
         setLoading(false)
       })
   }, [])
-
+  // console.log(products)
   return (
     <>
       <NavBar />

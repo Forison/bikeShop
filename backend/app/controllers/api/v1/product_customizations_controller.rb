@@ -9,11 +9,17 @@ module Api
       def create
         return if handle_available_selected_options
 
-        product_customization = @current_user.product_customizations.build(product_customization_params)
+        product_customization = @current_user.product_customizations.find_or_initialize_by(
+          product_id: product_customization_params[:product_id]
+        )
+
+        product_customization.assign_attributes(product_customization_params)
+
         authorize product_customization
 
         if product_customization.save
-          render json: product_customization, status: :created
+          status = product_customization.persisted? ? :ok : :created
+          render json: product_customization, status: status
         else
           render json: { errors: product_customization.errors.full_messages }, status: :unprocessable_entity
         end

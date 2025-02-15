@@ -6,7 +6,7 @@ import { ProductPart, ProductPartOption } from '../../utils/interface/shop'
 import { ProductCustomizations } from '../../utils/interface/customization'
 import { getCookie } from '../../utils/helper/tokenHandler'
 import AlertBanner from '../../presentational/AlertBanner'
-import { areAllCustomizationsValid } from '../../utils/helper/areAllCustomizationsValid'
+import { isValidCombination } from '../../utils/helper/validCombination'
 
 import 'font-awesome/css/font-awesome.min.css'
 import './ProductCustomizationForm.scss'
@@ -45,7 +45,7 @@ const ProductCustomizationForm: React.FC<Props> = ({ productPartNames, productOp
   }, [id])
 
   useEffect(() => {
-    if (areAllCustomizationsValid(formValue)) {
+    if (isValidCombination(formValue)) {
       fetch(`${process.env.REACT_APP_BACK_END_API_URL}/api/v1/product_customizations`, {
         method: 'POST',
         headers: {
@@ -110,7 +110,7 @@ const ProductCustomizationForm: React.FC<Props> = ({ productPartNames, productOp
         enableReinitialize
         onSubmit={handleSubmit}
       >
-        {({ values, setFieldValue, isSubmitting }) => {
+        {({ values, setFieldValue }) => {
           setFormValue(values)
           return (
             <FormikForm>
@@ -206,7 +206,7 @@ const ProductCustomizationForm: React.FC<Props> = ({ productPartNames, productOp
                   variant='outline-dark'
                   type='submit'
                   className='add-to-cart'
-                  disabled={!!combinationError || isSubmitting}
+                  disabled={!!combinationError}
                 >
                   Add to Cart
                 </Button>

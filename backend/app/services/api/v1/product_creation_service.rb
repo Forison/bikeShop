@@ -41,9 +41,9 @@ module Api
 
       def create_price_rules
         @params[:price_rule][:part_option].each do |rule|
-          @product.create_price_rule(condition_value: rule[:condition_value],
-                                     condition_key: rule[:condition_key],
-                                     price_modifier: rule[:price_modifier])
+          @product.price_rules.create(condition_value: rule[:condition_value],
+                                      condition_key: rule[:condition_key],
+                                      price_modifier: rule[:price_modifier])
         end
       end
 

@@ -2,7 +2,7 @@
 
 module Api
   module V1
-    class StockValidatorService
+    class PartOptionMismatchService
       def initialize(selected_options, errors)
         @selected_options = selected_options
         @errors = errors
@@ -13,12 +13,7 @@ module Api
         options.each do |product|
           product_part = find_product_part(product)
           product_part_option = find_product_part_option(product_part, product)
-          if product_part_option.nil?
-            return handle_missing_option_error(product)
-          end
-          if out_of_stock?(product_part_option)
-            return handle_out_of_stock_error(product)
-          end
+          return handle_missing_option_error(product) if product_part_option.nil?
         end
       end
 
@@ -32,18 +27,9 @@ module Api
         product_part&.product_part_options&.find_by(name: product['option'])
       end
 
-      def out_of_stock?(product_part_option)
-        product_part_option.quantity <= 0
-      end
-
       def handle_missing_option_error(product)
         @errors.add(:stock_status,
                     "The part #{product['part']} is not an option for #{product['option']}.")
-      end
-
-      def handle_out_of_stock_error(product)
-        @errors.add(:stock_status_violation,
-                    "The option #{product['option']} is currently out of stock.")
       end
     end
   end
