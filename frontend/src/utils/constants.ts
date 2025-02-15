@@ -18,7 +18,7 @@ export const PRODUCT_INITIAL_VALUES: Shop = {
       {
         condition_key: '',
         condition_value: '',
-        price_modifier: 0,
+        price_modifier: '',
       },
     ],
   },

@@ -7,7 +7,7 @@ export interface Product {
   description: string
   base_price: number
   quantity: number
-  price_rule?: PriceRule
+  price_rule?: PriceRulePartOption[]
   customization_options?: ProductCustomizations
 }
 
@@ -22,10 +22,10 @@ export interface ProductPart {
   part_options: ProductPartOption[]
 }
 
-interface PriceRulePartOption {
+export interface PriceRulePartOption {
   condition_value: string
   condition_key: string
-  price_modifier: number
+  price_modifier: string
 }
 
 export interface PriceRule {

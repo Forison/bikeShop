@@ -7,7 +7,6 @@ import { getCookie } from '../../utils/helper/tokenHandler'
 import { Product } from '../../utils/interface/shop'
 import Loading from '../../presentational/Loading'
 import AlertBanner from '../../presentational/AlertBanner'
-import TooltipButton from '../../presentational/TooltipButton'
 
 interface CartItemProp {
   cart_item: Product

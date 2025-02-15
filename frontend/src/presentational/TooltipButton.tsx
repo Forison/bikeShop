@@ -1,18 +1,18 @@
 import React from 'react'
 import { Tooltip, OverlayTrigger, Button } from 'react-bootstrap'
 import { ProductCustomizations } from '../utils/interface/customization'
-import { PriceRule } from '../utils/interface/shop'
-import { isMatchingCondition } from '../utils/helper/isMatchingCondition'
+import { PriceRulePartOption } from '../utils/interface/shop'
+import { isMatchingCondition, priceModifier } from '../utils/helper/isMatchingCondition'
 
 interface Props {
-  price_rule: any
-  customization_options: any
+  price_rule: PriceRulePartOption[] | undefined
+  customization_options: ProductCustomizations[]
 }
 
 const TooltipButton: React.FC<Props> = ({ customization_options, price_rule }) => {
-  const renderTooltip = () => (
-    <Tooltip id='button-tooltip'>
-      This is a cool part
+  const renderTooltip = (message?: string) => (props: any) => (
+    <Tooltip id='button-tooltip' {...props}>
+      {message}
     </Tooltip>
   )
 
@@ -21,10 +21,19 @@ const TooltipButton: React.FC<Props> = ({ customization_options, price_rule }) =
       <h1 className='small'>Your customization options</h1>
       {customization_options?.map((customization_option: any, index: number) => (
         <div className='d-flex mb-1' key={index}>
-          <OverlayTrigger placement='top' overlay={renderTooltip}>
+          <OverlayTrigger
+            placement='right'
+            delay={{ show: 250, hide: 400 }}
+            overlay={
+              isMatchingCondition(price_rule, customization_option)
+                ? renderTooltip(`An additional €${priceModifier(price_rule, customization_option)} 
+                                 was added due special price rule for combination`)
+                : renderTooltip()
+            }
+          >
             <Button
               variant={isMatchingCondition(price_rule, customization_option) ? 'outline-success' : 'outline-secondary'}
-              disabled
+              disabled={!isMatchingCondition(price_rule, customization_option)}
             >
               {customization_option.part}: {customization_option.option}
             </Button>
@@ -36,3 +45,4 @@ const TooltipButton: React.FC<Props> = ({ customization_options, price_rule }) =
 }
 
 export default TooltipButton
+

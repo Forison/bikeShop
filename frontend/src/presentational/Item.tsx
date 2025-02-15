@@ -3,8 +3,7 @@ import { Row, Col, Card } from 'react-bootstrap'
 import StockStatus from './StockStatus'
 import DeleteButton from './DeleteButton'
 import TooltipButton from './TooltipButton'
-import { PriceRule } from '../utils/interface/shop'
-import { ProductCustomizations } from '../utils/interface/customization'
+import { PriceRulePartOption } from '../utils/interface/shop'
 
 interface Props {
   cart_item_id: number
@@ -14,7 +13,7 @@ interface Props {
   description?: string
   quantity: number
   showStockStatus?: boolean
-  price_rule?: PriceRule | undefined
+  price_rule?: PriceRulePartOption[] | undefined
   customization_options?: any
 }
 

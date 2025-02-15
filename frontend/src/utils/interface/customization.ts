@@ -1,4 +1,4 @@
-interface ProductCustomization {
+export interface ProductCustomization {
   part: string
   option: string
   price: number
