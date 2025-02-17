@@ -26,7 +26,7 @@ module Api
       end
 
       def show
-        product_customization = @current_user.product_customizations.find_by(product_id: params[:id])
+        product_customization = @current_user.product_customizations.find_by(product_id: params[:id]) || []
         if product_customization
           render json: product_customization, status: :ok
         else

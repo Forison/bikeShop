@@ -1,11 +1,11 @@
-require 'open-uri'
-
-user = Api::V1::User.create!(
+user = Api::V1::User.new(
   email: 'admin@admin.com',
   password: '11111111',
   name: Faker::Name.name,
   role: :admin
 )
+user[:token] = Api::V1::JwtService.encode(user_id: user.id)
+user.save
 bicycles = ['BMX Bike',
             'Road bikes',
             '3t',

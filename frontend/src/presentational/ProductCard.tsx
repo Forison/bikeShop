@@ -14,7 +14,7 @@ interface Props {
   category: string
   description: string
   price: number
-  id: number
+  id: string
 }
 
 const ProductCard: React.FC<Props> = ({ id, name, category, description, price, quantity }) => {

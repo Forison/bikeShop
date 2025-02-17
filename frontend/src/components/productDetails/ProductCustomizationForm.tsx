@@ -7,7 +7,9 @@ import { ProductCustomizations } from '../../utils/interface/customization'
 import { getCookie } from '../../utils/helper/tokenHandler'
 import AlertBanner from '../../presentational/AlertBanner'
 import { isValidCombination } from '../../utils/helper/validCombination'
-
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { createProductCustomization, fetchCustomizations } from '../../services/customization'
+import Loading from '../../presentational/Loading'
 import 'font-awesome/css/font-awesome.min.css'
 import './ProductCustomizationForm.scss'
 
@@ -23,46 +25,22 @@ const ProductCustomizationForm: React.FC<Props> = ({ productPartNames, productOp
   const [formValue, setFormValue] = useState<ProductCustomizations>()
   const { id } = useParams<{ id?: string }>()
   const [productCustomizationId, setProductCustomizationId] = useState(null)
-  const [existingCustomizations, setExistingCustomizations] = useState<any | null>(null)
 
-  useEffect(() => {
-    if (id) {
-      fetch(`${process.env.REACT_APP_BACK_END_API_URL}/api/v1/product_customizations/${id}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${getCookie()}`
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          setExistingCustomizations(data.selected_options)
-        })
-        .catch((error) => {
-          console.error('Error fetching customizations:', error)
-        })
-    }
-  }, [id])
+  const { mutate: createCustomizationMutation } = useMutation({
+    mutationKey: ['createProductCustomization'],
+    mutationFn: createProductCustomization,
+    onSuccess: (data) => {
+      setProductCustomizationId(data.id)
+      setCombinationError('')
+    },
+    onError: (error: any) => {
+      setCombinationError(error.message)
+    },
+  })
 
   useEffect(() => {
     if (isValidCombination(formValue)) {
-      fetch(`${process.env.REACT_APP_BACK_END_API_URL}/api/v1/product_customizations`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${getCookie()}`,
-        },
-        body: JSON.stringify(formValue),
-      })
-        .then(async (response) => {
-          const data = await response.json()
-          if (!response.ok) {
-            throw new Error(data.errors ? data.errors.join(', ') : 'Something went wrong')
-          }
-          setProductCustomizationId(data.id)
-          setCombinationError('')
-        })
-        .catch((error) => { setCombinationError(error.message) })
+      createCustomizationMutation(formValue)
     }
   }, [formValue])
 
@@ -98,9 +76,20 @@ const ProductCustomizationForm: React.FC<Props> = ({ productPartNames, productOp
       })
   }
 
+  const { data: existingCustomizations, isLoading, isError, error } = useQuery({
+    queryKey: ['product_customizations', id],
+    queryFn: () => fetchCustomizations(id),
+    enabled: !!id,
+  })
+
+  if (isLoading) return <Loading />
+  if (isError) return <AlertBanner variant='danger' message={error.message} />
+
   const initialValues = {
     product_id: id,
-    selected_options: existingCustomizations?.length > 0 ? existingCustomizations : [{ part: '', option: '', price: 0 }]
+    selected_options: existingCustomizations?.selected_options?.length > 0
+      ? existingCustomizations.selected_options :
+      [{ part: '', option: '', price: 0 }]
   }
 
   return (

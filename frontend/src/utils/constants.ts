@@ -2,7 +2,7 @@ import { Shop } from "./interface/shop";
 
 export const PRODUCT_INITIAL_VALUES: Shop = {
   product: {
-    id: 0,
+    id: '',
     name: '',
     category: '',
     description: '',

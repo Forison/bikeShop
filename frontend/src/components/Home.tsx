@@ -19,7 +19,6 @@ const Home: React.FC = () => {
   if (isLoading) return <Loading />
   if (products?.length === 0) return <AlertBanner variant='info' message='There are no products available' />
   if (isError) return <AlertBanner variant='danger' message={error?.message} />
-
   return (
     <>
       <NavBar />
@@ -33,7 +32,7 @@ const Home: React.FC = () => {
           {products?.slice(1).map((product, index) => (
             <Col lg={3} key={index} className='mt-2'>
               <ProductCard
-                id={product.id ?? 0}
+                id={product.id}
                 name={product.name}
                 category={product.category}
                 description={product.description}

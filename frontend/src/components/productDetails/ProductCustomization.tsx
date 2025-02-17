@@ -10,13 +10,12 @@ import './ProductCustomization.scss'
 
 const ProductCustomization: React.FC = () => {
   const { id } = useParams<{ id?: string }>()
-  const { data: product, error, isLoading } = useQuery({
+  const { data: product, error } = useQuery({
     queryKey: ['product', id],
     queryFn: () => fetchProduct(id),
     enabled: !!id,
   })
 
-  if (isLoading) return <p>Loading product details...</p>
   if (error instanceof Error) return <p>Error: {error.message}</p>
 
   return (

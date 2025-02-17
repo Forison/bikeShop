@@ -21,7 +21,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_25_013841) do
     t.integer "quantity", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index %w[cart_id product_id], name: "index_cart_items_on_cart_id_and_product_id"
+    t.index ["cart_id", "product_id"], name: "index_cart_items_on_cart_id_and_product_id"
     t.index ["cart_id"], name: "index_cart_items_on_cart_id"
     t.index ["product_customization_id"], name: "index_cart_items_on_product_customization_id"
     t.index ["product_id"], name: "index_cart_items_on_product_id"
@@ -74,7 +74,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_25_013841) do
   end
 
   create_table "product_parts", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.bigint "product_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -84,7 +84,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_25_013841) do
   create_table "products", force: :cascade do |t|
     t.string "name", null: false
     t.string "category", null: false
-    t.text "description"
+    t.text "description", null: false
     t.bigint "user_id", null: false
     t.decimal "base_price", precision: 10, scale: 2, default: "0.0", null: false
     t.integer "quantity", default: 0, null: false
@@ -95,10 +95,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_25_013841) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.string "email", null: false
     t.string "password_digest"
-    t.string "token"
+    t.string "token", null: false
     t.string "role", default: "customer", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

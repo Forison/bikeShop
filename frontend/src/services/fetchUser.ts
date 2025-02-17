@@ -9,10 +9,11 @@ export const fetchUser = async (): Promise<User> => {
       'Authorization': `Bearer ${getCookie()}`
     }
   })
+  const data = await response.json()
 
   if (!response.ok) {
-    throw new Error('Failed to fetch user')
+    throw new Error(data.errors ? data.errors.join(', ') : 'Something went wrong')
   }
 
-  return response.json()
+  return data
 }
