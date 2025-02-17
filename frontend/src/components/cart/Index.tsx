@@ -1,41 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import CartItem from '../../presentational/Item'
 import CheckoutSection from '../../presentational/CheckoutSection'
 import NavBar from '../productDetails/NavBar'
-import { getCookie } from '../../utils/helper/tokenHandler'
-import { Product } from '../../utils/interface/shop'
 import Loading from '../../presentational/Loading'
 import AlertBanner from '../../presentational/AlertBanner'
-
-interface CartItemProp {
-  cart_item: Product
-  cart_item_id: number
-  cart_item_price_summation: number
-}
+import { useQuery } from '@tanstack/react-query'
+import { fetchCartItems } from '../../services/fetCartItems'
 
 const Index: React.FC = () => {
-  const [products, setProducts] = useState<CartItemProp[]>([])
-  const [loading, setLoading] = useState<boolean>(true)
+  const { data: products, error, isLoading } = useQuery({
+    queryKey: ['cartItems'],
+    queryFn: () => fetchCartItems()
+  })
 
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_BACK_END_API_URL}/api/v1/carts`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${getCookie()}`,
-      }
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setProducts(data)
-        setLoading(false)
-      })
-      .catch((error) => {
-        console.error('Error:', error)
-        setLoading(false)
-      })
-  }, [])
+  if (error instanceof Error) return <AlertBanner variant='danger' message={error.message} />
 
   return (
     <>
@@ -44,9 +23,9 @@ const Index: React.FC = () => {
         <Row>
           <Col md={8}>
             <h2 className='mb-4'>Cart</h2>
-            {loading ? (
+            {isLoading ? (
               <Loading />
-            ) : products.length === 0 ? (
+            ) : products?.length === 0 ? (
               <AlertBanner variant='info' message='Your cart is currently empty' />
             ) : (
               products?.map((product, index) => (
@@ -67,7 +46,7 @@ const Index: React.FC = () => {
             )}
           </Col>
           <Col md={4}>
-            {products.length > 0 && (
+            {products && products.length > 0 && (
               <CheckoutSection total={products[0]?.cart_item_price_summation} />
             )}
           </Col>

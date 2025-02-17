@@ -1,10 +1,14 @@
 import React from 'react'
 import { Row, Col, Button } from 'react-bootstrap'
-
-import './MainScreen.scss'
 import { useNavigate } from 'react-router-dom'
+import './MainScreen.scss'
+import { Product } from '../utils/interface/shop'
 
-const MainScreen: React.FC = () => {
+interface Prop {
+  product: Product
+}
+
+const MainScreen: React.FC<Prop> = ({ product }) => {
   const navigate = useNavigate()
   return (
     <Row className='align-items-center'>
@@ -12,8 +16,8 @@ const MainScreen: React.FC = () => {
         <p className='text-muted mb-1 moterra-subheading'>
           When The Only Boundary Left Is Gravity
         </p>
-        <h1 className='moterra-title'>Moterra Neo</h1>
-        <Button variant='warning' size='lg' className='moterra-button' onClick={() => navigate('/detail/1')}>
+        <h1 className='moterra-title'>{product.name}</h1>
+        <Button variant='warning' size='lg' className='moterra-button' onClick={() => navigate(`/detail/${product.id}`)}>
           Shop Now
         </Button>
       </Col>
@@ -31,10 +35,9 @@ const MainScreen: React.FC = () => {
           className='moterra-image'
         />
         <p className='text-muted mt-3 mb-1 moterra-description'>
-          The only bicycle with an world.<br />
-          Book today with delivery in May 2022.
+          {product.description}
         </p>
-        <h2 className='moterra-price'>1,459$</h2>
+        <h2 className='moterra-price'>€{product.base_price}</h2>
       </Col>
     </Row>
   )

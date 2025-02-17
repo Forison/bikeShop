@@ -1,33 +1,21 @@
-import React, { createContext, useState, useEffect, ReactNode } from 'react'
-import { getCookie } from '../../utils/helper/tokenHandler'
+import React, { createContext, ReactNode } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import { User } from '../../utils/interface/user'
-
+import AlertBanner from '../../presentational/AlertBanner'
+import { fetchUser } from '../../services/fetchUser'
 
 interface AuthContextType {
-  user: User | null
+  user: User | undefined
 }
-
 export const AuthContext = createContext<AuthContextType | null>(null)
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null)
+  const { data: user, error } = useQuery({
+    queryKey: ['user'],
+    queryFn: () => fetchUser()
+  })
 
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_BACK_END_API_URL}/api/v1/me`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${getCookie()}`
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        setUser(data)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }, [])
+  if (error instanceof Error) return <AlertBanner variant='danger' message={error.message} />
 
   return (
     <AuthContext.Provider value={{ user }}>
@@ -35,4 +23,3 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     </AuthContext.Provider>
   )
 }
-

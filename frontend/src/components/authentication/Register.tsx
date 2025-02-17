@@ -5,6 +5,8 @@ import { User } from '../../utils/interface/user'
 import { registrationSchema } from '../../utils/schema'
 import AlertBanner from '../../presentational/AlertBanner'
 import { setCookie } from '../../utils/helper/tokenHandler'
+import { authUser } from '../../services/authUser'
+import { useMutation } from '@tanstack/react-query'
 
 
 const initialValues: User = {
@@ -19,29 +21,25 @@ const Register: React.FC = () => {
   const [variant, setVariant] = useState('')
   const [message, setMessage] = useState('')
 
-  const handleSubmit = (values: User) => {
-    fetch(`${process.env.REACT_APP_BACK_END_API_URL}/api/v1/register`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ user: values }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        setCookie(data.user.token)
-        setMessage('Account creation successful')
-        setVariant('success')
-        setTimeout(() => {
-          window.location.href = '/'
-        }, 2000)
-      })
-      .catch((error) => {
-        setVariant('danger')
-        console.error('Error:', error)
-      })
-  }
+  const { mutate, isPending } = useMutation({
+    mutationFn: (values: User) => authUser(values, 'api/v1/register'),
+    onSuccess: (data) => {
+      setCookie(data.user.token)
+      setMessage('Login successful')
+      setVariant('success')
+      setTimeout(() => {
+        window.location.href = '/'
+      }, 2000)
+    },
+    onError: () => {
+      setVariant('danger')
+      setMessage('Login failed. Please try again.')
+    },
+  })
 
+  const handleSubmit = (values: User) => {
+    mutate(values)
+  }
   return (
     <Container className='d-flex justify-content-center align-items-center'>
       <Row>
@@ -134,8 +132,8 @@ const Register: React.FC = () => {
                   </Form.Control.Feedback>
                 </Form.Group>
 
-                <Button variant='primary' type='submit' className='w-100 mt-3'>
-                  Register
+                <Button variant='primary' type='submit' className='w-100 mt-3' disabled={isPending}>
+                  {isPending ? 'Registering ...' : 'Register'}
                 </Button>
                 <AlertBanner
                   variant='info'

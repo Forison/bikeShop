@@ -1,63 +1,47 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
+import { useQuery } from '@tanstack/react-query'
 import NavBar from './productDetails/NavBar'
 import MainScreen from '../presentational/MainScreen'
 import ProductCard from '../presentational/ProductCard'
-import { getCookie } from '../utils/helper/tokenHandler'
 import { Product } from '../utils/interface/shop'
 import Loading from '../presentational/Loading'
+import AlertBanner from '../presentational/AlertBanner'
+import { fetchProducts } from '../services/fetchProducts'
 
 const Home: React.FC = () => {
-  const [products, setProducts] = useState<Product[]>([])
-  const [loading, setLoading] = useState<boolean>(true)
+  const { data: products, isLoading, isError, error } = useQuery<Product[], Error>({
+    queryKey: ['products'],
+    queryFn: fetchProducts,
+    refetchOnWindowFocus: false,
+  })
 
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_BACK_END_API_URL}/api/v1/products`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${getCookie()}`
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        setProducts(data)
-        setLoading(false)
-      })
-      .catch((error) => {
-        console.log(error)
-        setLoading(false)
-      })
-  }, [])
+  if (isLoading) return <Loading />
+  if (products?.length === 0) return <AlertBanner variant='info' message='There are no products available' />
+  if (isError) return <AlertBanner variant='danger' message={error?.message} />
 
   return (
     <>
       <NavBar />
       <Container fluid className='shop-container d-flex '>
         <Row>
-          <MainScreen />
+          {products && <MainScreen product={products[0]} />}
         </Row>
       </Container>
-      <Container
-        className='shop-container d-flex justify-content-center align-items-center'
-      >
+      <Container className='shop-container d-flex justify-content-center align-items-center'>
         <Row className='w-100'>
-          {loading ? (
-            <Loading />
-          ) : (
-            products?.map((product, index) => (
-              <Col lg={3} key={index} className='mt-2'>
-                <ProductCard
-                  id={product.id ?? 0}
-                  name={product.name}
-                  category={product.category}
-                  description={product.description}
-                  price={product.base_price ?? 0}
-                  quantity={product.quantity}
-                />
-              </Col>
-            ))
-          )}
+          {products?.slice(1).map((product, index) => (
+            <Col lg={3} key={index} className='mt-2'>
+              <ProductCard
+                id={product.id ?? 0}
+                name={product.name}
+                category={product.category}
+                description={product.description}
+                price={product.base_price ?? 0}
+                quantity={product.quantity}
+              />
+            </Col>
+          ))}
         </Row>
       </Container>
     </>

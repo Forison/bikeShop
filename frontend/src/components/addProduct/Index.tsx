@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Formik, Form, FormikHelpers } from 'formik'
 import { useNavigate } from 'react-router-dom'
 import { Container, Row, Col, Button } from 'react-bootstrap'
+import { useMutation } from '@tanstack/react-query'
 import ProductUploadForm from './ProductUploadForm'
 import ProductPartOptionForm from './ProductPartOptionForm'
 import PriceRuleForm from './PriceRuleForm'
@@ -9,45 +10,38 @@ import CombinationRuleForm from './CombinationRuleForm'
 import { combinedValidationSchema } from '../../utils/schema'
 import { Shop } from '../../utils/interface/shop'
 import NavBar from '../productDetails/NavBar'
-import { getCookie } from '../../utils/helper/tokenHandler'
-import './Index.scss'
 import AlertBanner from '../../presentational/AlertBanner'
 import { PRODUCT_INITIAL_VALUES } from '../../utils/constants'
+import { createProduct } from '../../services/createProduct'
+import './Index.scss'
 
 const Index: React.FC = () => {
   const navigate = useNavigate()
-  const [variant, setVariant] = useState('')
-  const [message, setMessage] = useState('')
   const [step, setStep] = useState(1)
+  const [variant, setVariant] = useState<string>('')
+  const [message, setMessage] = useState<string>('')
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: createProduct,
+    onSuccess: () => {
+      setVariant('success')
+      setMessage('A new product has been added')
+      setTimeout(() => {
+        setVariant('')
+        setMessage('')
+        navigate('/')
+      }, 2000)
+    },
+    onError: (error: Error) => {
+      setVariant('danger')
+      setMessage(error.message || 'Product creation failed')
+    },
+  })
+
+  const handleSubmit = (values: Shop, actions: FormikHelpers<Shop>) => mutate(values)
 
   const handleNext = () => setStep((prev) => prev + 1)
   const handlePrev = () => setStep((prev) => prev - 1)
-
-  const handleSubmit = (values: Shop, actions: FormikHelpers<Shop>) => {
-    fetch(`${process.env.REACT_APP_BACK_END_API_URL}/api/v1/products`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${getCookie()}`
-      },
-      body: JSON.stringify(values),
-    })
-      .then(response => response.json())
-      .then(() => {
-        setVariant('success')
-        setMessage('A new product has been added')
-        setTimeout(() => {
-          setVariant('')
-          setMessage('')
-          navigate('/')
-        }, 2000)
-      })
-      .catch((error) => {
-        console.log(error)
-        setVariant('product creation failed')
-        setMessage('danger')
-      })
-  }
 
   const renderStep = () => {
     switch (step) {
@@ -69,14 +63,14 @@ const Index: React.FC = () => {
       <NavBar />
       <Container className='mt-5'>
         <Row className='justify-content-center'>
-          {(message && variant) && <AlertBanner variant={variant} message={message} />}
+          {message && variant && <AlertBanner variant={variant} message={message} />}
           <Col lg={6}>
             <Formik
               initialValues={PRODUCT_INITIAL_VALUES}
               validationSchema={combinedValidationSchema}
               onSubmit={handleSubmit}
             >
-              {({ isSubmitting }) => (
+              {() => (
                 <Form>
                   {renderStep()}
                   <div className='mt-3 d-flex justify-content-between'>
@@ -91,8 +85,12 @@ const Index: React.FC = () => {
                       </Button>
                     )}
                     {step === 4 && (
-                      <Button variant='success' type='submit' disabled={isSubmitting}>
-                        Submit
+                      <Button
+                        variant='success'
+                        type='submit'
+                        disabled={isPending}
+                      >
+                        {isPending ? 'Submitting...' : 'Submit'}
                       </Button>
                     )}
                   </div>
