@@ -15,6 +15,7 @@ module Api
           create_product_base_price
           create_price_rules
           create_combination_rules
+          add_default_customization
         end
       rescue ActiveRecord::RecordInvalid => e
         raise ActiveRecord::Rollback, e.message
@@ -49,6 +50,26 @@ module Api
 
       def create_combination_rules
         @product.create_combination_rule(prohibited_options: @params[:combination_rule][:prohibited_options])
+      end
+
+      def extract_first_part_details
+        @params[:product_parts].map do |part|
+          {
+            part: part[:name],
+            option: part[:part_options].first[:name],
+            price: part[:part_options].first[:price]
+          }
+        end
+      end
+
+      def add_default_customization
+        # debugger
+        Api::V1::ProductCustomization.create!({
+          user_id: @product.user.id,
+          product_id: @product.id,
+          selected_options: extract_first_part_details,
+          total_price: create_product_base_price
+        })
       end
     end
   end

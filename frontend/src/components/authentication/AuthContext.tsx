@@ -13,7 +13,7 @@ export const AuthContext = createContext<AuthContextType>({
 })
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const { data: user, error } = useQuery<User, Error>({
+  const { data: user } = useQuery<User, Error>({
     queryKey: ['user'],
     queryFn: fetchUser,
   })
