@@ -1,31 +1,29 @@
 import React from 'react'
-import { Button, Row, Col } from 'react-bootstrap'
-import { Field, FieldArray, ErrorMessage, useFormikContext } from 'formik'
-import { Shop } from '../../utils/interface/shop'
+import { Button, Row, Col, Form } from 'react-bootstrap'
+import { Field, FieldArray, ErrorMessage, useFormikContext, FormikErrors } from 'formik'
+import { PriceRulePartOption, Shop } from '../../utils/interface/shop'
 
 const PriceRuleForm: React.FC = () => {
-  const { values } = useFormikContext<Shop>()
+  const { values, errors, touched } = useFormikContext<Shop>()
+  console.log(errors.price_rule?.part_option)
   return (
     <>
-      <h1 className='text-center'>Add Price Rule</h1>
+      <h1 className='text-center fs-4'>Add Price Rule</h1>
       <FieldArray name='price_rule.part_option'>
         {({ push, remove }) => (
           <>
             {values.price_rule.part_option.map((_, index) => (
-              <Row key={index} className='align-items-center mb-3'>
+              <Row key={index} className='align-items-center mb-3 rounded shadow p-3'>
                 <Col xs={4}>
                   <div className='form-group' control-id={`conditionKey_${index}`}>
                     <label>Part name</label>
                     <Field
                       name={`price_rule.part_option[${index}].condition_key`}
                       type='text'
-                      placeholder='Enter condition key'
-                      className='form-control'
-                    />
-                    <ErrorMessage
-                      name={`price_rule.part_option[${index}].condition_key`}
-                      component='div'
-                      className='text-danger'
+                      as={Form.Control}
+                      isInvalid={!!(errors.price_rule?.part_option?.[index] as FormikErrors<PriceRulePartOption>)?.condition_key &&
+                        !(touched.price_rule?.part_option?.[index] as FormikErrors<PriceRulePartOption>)?.condition_key
+                      }
                     />
                   </div>
                 </Col>
@@ -36,13 +34,10 @@ const PriceRuleForm: React.FC = () => {
                     <Field
                       name={`price_rule.part_option[${index}].condition_value`}
                       type='text'
-                      placeholder='Enter condition value'
-                      className='form-control'
-                    />
-                    <ErrorMessage
-                      name={`price_rule.part_option[${index}].condition_value`}
-                      component='div'
-                      className='text-danger'
+                      as={Form.Control}
+                      isInvalid={!!(errors.price_rule?.part_option?.[index] as FormikErrors<PriceRulePartOption>)?.condition_value &&
+                        !(touched.price_rule?.part_option?.[index] as FormikErrors<PriceRulePartOption>)?.condition_value
+                      }
                     />
                   </div>
                 </Col>
@@ -53,12 +48,15 @@ const PriceRuleForm: React.FC = () => {
                     <Field
                       name={`price_rule.part_option[${index}].price_modifier`}
                       type='number'
-                      className='form-control'
+                      as={Form.Control}
+                      isInvalid={!!(errors.price_rule?.part_option?.[index] as FormikErrors<PriceRulePartOption>)?.price_modifier &&
+                        !(touched.price_rule?.part_option?.[index] as FormikErrors<PriceRulePartOption>)?.price_modifier
+                      }
                     />
                     <ErrorMessage
                       name={`price_rule.part_option[${index}].price_modifier`}
                       component='div'
-                      className='text-danger'
+                      className='text-danger small'
                     />
                   </div>
                 </Col>
@@ -66,11 +64,11 @@ const PriceRuleForm: React.FC = () => {
                 <Col xs={1} className='text-center'>
                   {values.price_rule.part_option.length > 1 && (
                     <Button
-                      variant='danger'
+                      variant='outline-danger'
                       onClick={() => remove(index)}
                       className='mt-4'
                     >
-                      Remove
+                      <i className='fa fa-trash' />
                     </Button>
                   )}
                 </Col>

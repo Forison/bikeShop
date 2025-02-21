@@ -7,7 +7,9 @@ import { AuthContext } from './components/authentication/AuthContext'
 const Home = lazy(() => import('./components/Home'))
 const ProductDetail = lazy(() => import('./components/productDetails/Index'))
 const Cart = lazy(() => import('./components/cart/Index'))
+const CreateCategory = lazy(() => import('./components/category/Index'))
 const Product = lazy(() => import('./components/addProduct/Index'))
+const Products = lazy(() => import('./components/products/Index'))
 const Login = lazy(() => import('./components/authentication/Login'))
 const Register = lazy(() => import('./components/authentication/Register'))
 
@@ -21,11 +23,11 @@ const App: React.FC = () => {
         <Routes>
           <Route
             path='/login'
-            element={user?.name ? <Navigate to='/' replace /> : <Login />}
+            element={!!user ? <Navigate to='/' replace /> : <Login />}
           />
           <Route
             path='/register'
-            element={user?.name ? <Navigate to='/' replace /> : <Register />}
+            element={!!user ? <Navigate to='/' replace /> : <Register />}
           />
           <Route
             path='/detail/:id'
@@ -38,6 +40,14 @@ const App: React.FC = () => {
           <Route
             path='/Product'
             element={<Product />}
+          />
+          <Route
+            path='/Products'
+            element={<Products />}
+          />
+          <Route
+            path='/category'
+            element={<CreateCategory />}
           />
           <Route
             path='/'

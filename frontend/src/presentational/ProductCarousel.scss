@@ -1,0 +1,24 @@
+/* Darker carousel indicators (dots) */
+.carousel-indicators li {
+  background-color: #555 !important;
+  /* Inactive dots color */
+}
+
+.carousel-indicators .active {
+  background-color: #333 !important;
+  /* Active dot color */
+}
+
+/* Darker left and right arrows */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: #333 !important;
+  /* Darker arrow color */
+}
+
+/* Optional: Add darker hover effect for arrows */
+.carousel-control-prev-icon:hover,
+.carousel-control-next-icon:hover {
+  background-color: #555 !important;
+  /* Darker on hover */
+}

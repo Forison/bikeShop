@@ -1,0 +1,106 @@
+footer {
+  width: 100%;
+  height: 180px;
+  background-color: transparent;
+  position: relative;
+  /* Normal positioning, not fixed */
+  margin-top: auto;
+  /* Makes the footer stick at the bottom if the content is short */
+  z-index: 1000;
+
+  .footer-content {
+    position: absolute;
+    top: 60%;
+    left: 0;
+    width: 100%;
+    z-index: 2;
+    text-align: center;
+    color: #fff;
+    transform: translateY(-50%);
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    li {
+      margin: 0 15px;
+
+      a {
+        text-decoration: none;
+        color: inherit;
+        font-weight: 600;
+        transition: color 0.3s;
+
+        &:hover {
+          color: #e0e0e0;
+        }
+      }
+    }
+  }
+
+  .wave-background {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 180px;
+    background-color: #64b5f6;
+    overflow: hidden;
+    z-index: 1;
+    clip-path: polygon(0% 25%,
+        10% 20%,
+        20% 30%,
+        30% 20%,
+        40% 25%,
+        50% 20%,
+        60% 30%,
+        70% 20%,
+        80% 25%,
+        90% 15%,
+        100% 0,
+        100% 100%,
+        0 100%);
+
+    svg {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: auto;
+
+      path {
+        animation: wave-breathing 6s infinite ease-in-out;
+      }
+
+      path:nth-child(1) {
+        animation-delay: 0s;
+      }
+
+      path:nth-child(2) {
+        animation-delay: 2s;
+      }
+
+      path:nth-child(3) {
+        animation-delay: 4s;
+      }
+    }
+  }
+
+  @keyframes wave-breathing {
+    0% {
+      transform: scaleY(1);
+    }
+
+    50% {
+      transform: scaleY(1.1);
+    }
+
+    100% {
+      transform: scaleY(1);
+    }
+  }
+}

@@ -30,7 +30,7 @@ const Item: React.FC<Props> = ({
 }) => {
   const deleteUrl = `${process.env.REACT_APP_BACK_END_API_URL}/api/v1/cart_items/${cart_item_id}`
   return (
-    <Card className='mb-3'>
+    <Card className='mb-3 shadow'>
       <Row className='g-0'>
         <Col md={5} className='d-flex align-items-center'>
           <img src={imageUrl} alt={title} className='img-fluid rounded-start' />

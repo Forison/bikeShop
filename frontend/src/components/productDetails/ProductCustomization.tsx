@@ -19,7 +19,7 @@ const ProductCustomization: React.FC = () => {
   if (error instanceof Error) return <p>Error: {error.message}</p>
 
   return (
-    <Card className='product-card'>
+    <Card className='product-card shadow' >
       <Card.Body>
         <Card.Title className='title'>{product?.name}</Card.Title>
         <Card.Text className='subtitle'>{product?.description}</Card.Text>

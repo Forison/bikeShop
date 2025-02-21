@@ -12,7 +12,7 @@ const CheckoutSection: React.FC<Prop> = ({ total }) => {
   return (
     <>
       <h2 className='mb-4'>Checkout</h2>
-      <Card className='p-3 shadow-sm'>
+      <Card className='p-3 shadow'>
         <div className='d-flex justify-content-between fw-bold'>
           <span>Total</span>
           <span>${total}</span>

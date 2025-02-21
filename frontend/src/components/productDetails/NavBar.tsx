@@ -1,10 +1,14 @@
 import React, { useContext } from 'react'
 import { Navbar, Nav, NavDropdown, Container, Image } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { AuthContext } from '../authentication/AuthContext'
+import { logout } from '../../utils/helper/tokenHandler'
+import SearchBar from '../../presentational/SearchBar'
 
 import './NavBar.scss'
-import { logout } from '../../utils/helper/tokenHandler'
+
 
 const NavBar: React.FC = () => {
   const navigate = useNavigate()
@@ -15,9 +19,11 @@ const NavBar: React.FC = () => {
     window.location.href = '/'
   }
   return (
-    <Navbar bg='light' expand='lg'>
+    <Navbar bg='light' expand='lg' className='shadow sticky-top mb-5'>
       <Container>
         <Navbar.Brand href='/'>MyApp</Navbar.Brand>
+        <SearchBar />
+        {true && (<FontAwesomeIcon className='mx-4 cursor-pointer' icon={faShoppingCart} onClick={() => navigate('/carts')} />)}
         <Nav className='ml-auto'>
           <NavDropdown
             title={
@@ -30,19 +36,20 @@ const NavBar: React.FC = () => {
                   height='30'
                   className='mr-2'
                 />
-                {user?.name}
               </span>
             }
             id='navbar-nav-dropdown'
-            className='no-caret'
+            className='no-caret small'
           >
 
-            {user?.name ? (
+            {!!user ? (
               <>
                 {user?.admin && (
-                  <NavDropdown.Item onClick={() => navigate('/Product')}>Add New Product</NavDropdown.Item>
+                  <>
+                    <NavDropdown.Item onClick={() => navigate('/Product')}>New Product</NavDropdown.Item>
+                    <NavDropdown.Item onClick={() => navigate('/category')}>Add Category</NavDropdown.Item>
+                  </>
                 )}
-                <NavDropdown.Item onClick={() => navigate('/carts')}>Cart</NavDropdown.Item>
                 <hr />
                 <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
               </>

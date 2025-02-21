@@ -8,6 +8,8 @@ Rails.application.routes.draw do
       resources :price_rules, only: %i[create update destroy]
       resources :carts, only: :index
       resources :cart_items, only: %i[create destroy]
+      resources :categories, only: %i[create index]
+      resources :product_parts, only: %i[create show]
 
       post 'register', to: 'auth#register'
       post 'login', to: 'auth#login'

@@ -8,13 +8,12 @@ const CombinationRuleForm: React.FC = () => {
 
   return (
     <>
-      <h1 className='text-center'>Add Combination Rules</h1>
+      <h1 className='text-center fs-4'>Add Combination Rules</h1>
       <FieldArray name='combination_rule.prohibited_options'>
         {({ push, remove }) => (
           <>
-            <h5>Prohibited Options</h5>
             {values.combination_rule.prohibited_options.map((_, index) => (
-              <div key={index} className='d-flex align-items-center gap-3 mb-3'>
+              <div key={index} className='d-flex align-items-center gap-3 mb-3 rounded shadow p-3'>
                 <Form.Group controlId={`prohibitedOptions-${index}`} className='flex-grow-1'>
                   <Form.Label>Part</Form.Label>
                   <Field
@@ -47,11 +46,11 @@ const CombinationRuleForm: React.FC = () => {
 
                 {values.combination_rule.prohibited_options.length > 1 && (
                   <Button
-                    variant='danger'
+                    variant='outline-danger'
                     className='mt-4'
                     onClick={() => remove(index)}
                   >
-                    Remove
+                    <i className='fa fa-trash' />
                   </Button>
                 )}
               </div>

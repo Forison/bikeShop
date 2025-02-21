@@ -8,6 +8,10 @@ module Api
       def admin
         object.admin?
       end
+
+      def name
+        "#{object.last_name} #{object.first_name}"
+      end
     end
   end
 end

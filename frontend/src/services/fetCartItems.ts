@@ -1,8 +1,8 @@
 import { getCookie } from "../utils/helper/tokenHandler"
-import { Product } from "../utils/interface/shop"
+import { ProductWithCustomization } from "../utils/interface/shop"
 
 interface CartItemProp {
-  cart_item: Product
+  cart_item: ProductWithCustomization
   cart_item_id: number
   cart_item_price_summation: number
 }
