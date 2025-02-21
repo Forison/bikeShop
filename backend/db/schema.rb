@@ -107,7 +107,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_25_013841) do
     t.date "date_of_birth", null: false
     t.string "email", null: false
     t.string "password_digest"
-    t.string "token", null: false
+    t.string "token"
     t.string "role", default: "customer", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
