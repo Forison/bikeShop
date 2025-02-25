@@ -23,7 +23,13 @@ const NavBar: React.FC = () => {
       <Container>
         <Navbar.Brand href='/'>MyApp</Navbar.Brand>
         <SearchBar />
-        {true && (<FontAwesomeIcon className='mx-4 cursor-pointer' icon={faShoppingCart} onClick={() => navigate('/carts')} />)}
+        {user && !user?.admin && (
+          <FontAwesomeIcon
+            className='mx-4 cursor-pointer'
+            icon={faShoppingCart}
+            onClick={() => navigate('/carts')}
+          />
+        )}
         <Nav className='ml-auto'>
           <NavDropdown
             title={

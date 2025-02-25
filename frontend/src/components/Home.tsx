@@ -27,7 +27,7 @@ const Home: React.FC = () => {
       <Container className='shop-container'>
         <Row className='w-100'>
           {products?.slice(1).map((product, index) => (
-            <Col lg={2} md={4} sm={6} xs={12} key={index} className='mt-2'>
+            <Col lg={3} md={4} sm={6} xs={12} key={index} className='mt-2'>
               <ProductCard
                 id={product.id}
                 name={product.name}

@@ -22,6 +22,13 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   )
 }
 
+// Private Route Wrapper
+const PrivateRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { user } = useContext(AuthContext)
+
+  return user ? <Layout>{children}</Layout> : <Navigate to="/" replace />
+}
+
 const App: React.FC = () => {
   const authContext = useContext(AuthContext)
   const user = authContext?.user
@@ -34,7 +41,7 @@ const App: React.FC = () => {
           <Route path="/login" element={user ? <Navigate to="/" replace /> : <Login />} />
           <Route path="/register" element={user ? <Navigate to="/" replace /> : <Register />} />
 
-          {/* Routes with Navbar (Wrapped in Layout) */}
+          {/* Home Page - Always Accessible */}
           <Route
             path="/"
             element={
@@ -43,44 +50,47 @@ const App: React.FC = () => {
               </Layout>
             }
           />
-          <Route
-            path="/detail/:id"
-            element={
-              <Layout>
-                <ProductDetail />
-              </Layout>
-            }
-          />
+
+
+          {/* Protected Routes - Only accessible if logged in */}
           <Route
             path="/carts"
             element={
-              <Layout>
+              <PrivateRoute>
                 <Cart />
-              </Layout>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/detail/:id"
+            element={
+              <PrivateRoute>
+                <ProductDetail />
+              </PrivateRoute>
             }
           />
           <Route
             path="/product"
             element={
-              <Layout>
+              <PrivateRoute>
                 <Product />
-              </Layout>
+              </PrivateRoute>
             }
           />
           <Route
             path="/products"
             element={
-              <Layout>
+              <PrivateRoute>
                 <Products />
-              </Layout>
+              </PrivateRoute>
             }
           />
           <Route
             path="/category"
             element={
-              <Layout>
+              <PrivateRoute>
                 <CreateCategory />
-              </Layout>
+              </PrivateRoute>
             }
           />
         </Routes>

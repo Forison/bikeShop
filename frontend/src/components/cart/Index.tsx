@@ -6,7 +6,7 @@ import Loading from '../../presentational/Loading'
 import AlertBanner from '../../presentational/AlertBanner'
 import { useQuery } from '@tanstack/react-query'
 import { fetchCartItems } from '../../services/fetCartItems'
-import Footer from '../../presentational/Footer'
+// import Footer from '../../presentational/Footer'
 
 const Index: React.FC = () => {
   const { data: products, error, isLoading } = useQuery({
@@ -51,7 +51,7 @@ const Index: React.FC = () => {
           </Col>
         </Row>
       </Container>
-      <Footer />
+      {/* <Footer /> */}
     </>
   )
 }
