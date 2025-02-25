@@ -10,15 +10,16 @@ import { isValidCombination } from '../../utils/helper/validCombination'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { createProductCustomization, fetchCustomizations } from '../../services/customization'
 import Loading from '../../presentational/Loading'
+import QuantitySelector from '../../presentational/QuantitySelector'
 import 'font-awesome/css/font-awesome.min.css'
 import './ProductCustomizationForm.scss'
 
 interface Props {
-  productPartNames: ProductPart[]
   productOptions: ProductPartOption[]
+  notCustomizable?: boolean
 }
 
-const ProductCustomizationForm: React.FC<Props> = ({ productPartNames, productOptions }) => {
+const ProductCustomizationForm: React.FC<Props> = ({ productOptions, notCustomizable }) => {
   const [variant, setVariant] = useState<string>('')
   const [message, setMessage] = useState<string>('')
   const [combinationError, setCombinationError] = useState<string>('')
@@ -94,6 +95,7 @@ const ProductCustomizationForm: React.FC<Props> = ({ productPartNames, productOp
 
   return (
     <>
+      {(message && variant) && <AlertBanner message={message} variant={variant} />}
       <Formik
         initialValues={initialValues}
         enableReinitialize
@@ -103,36 +105,18 @@ const ProductCustomizationForm: React.FC<Props> = ({ productPartNames, productOp
           setFormValue(values)
           return (
             <FormikForm>
-              <FieldArray
+              {!notCustomizable && <FieldArray
                 name='selected_options'
-                render={(arrayHelpers) => (
+                render={() => (
                   <>
                     {values.selected_options.map((product: any, index: any) => (
-                      <Row className='dropdown-section mb-3' key={index}>
-                        <Col xs={4}>
-                          <h6>Part Name</h6>
-                          <select
-                            className='form-control'
-                            value={product.part}
-                            onChange={(e) => {
-                              const selectedPart = e.target.value
-                              setFieldValue(`selected_options[${index}].part`, selectedPart)
-                              setFieldValue(`selected_options[${index}].option`, '')
-                              setFieldValue(`selected_options[${index}].price`, 0)
-                              setFieldValue(`product_id`, id)
-                            }}
-                          >
-                            <option value=''>Select Part</option>
-                            {productPartNames.map((part, id) => (
-                              <option key={id} value={part.name}>
-                                {part.name}
-                              </option>
-                            ))}
-                          </select>
+                      <Row className='dropdown-section mb-3 align-items-center py-3 border rounded bg-awesome' key={index}>
+                        <Col xs={3}>
+                          <Form.Control hidden name={`selected_options[${index}].part`} value={product.part} />
+                          <p>{product.part}</p>
                         </Col>
 
-                        <Col xs={5}>
-                          <h6>Part Option</h6>
+                        <Col xs={7}>
                           <select
                             className='form-control'
                             value={product.option}
@@ -154,20 +138,8 @@ const ProductCustomizationForm: React.FC<Props> = ({ productPartNames, productOp
                           </select>
                         </Col>
 
-                        <Col xs={2} className='text-center mt-4'>
+                        <Col xs={2}>
                           {product.price > 0 && <div className='price'>€ {product.price}</div>}
-                        </Col>
-
-                        <Col xs={1} className='text-center'>
-                          {values.selected_options.length > 1 && (
-                            <Button
-                              variant='outline-danger'
-                              onClick={() => arrayHelpers.remove(index)}
-                              className='remove-btn mt-4'
-                            >
-                              <i className='fa fa-times' />
-                            </Button>
-                          )}
                         </Col>
                       </Row>
                     ))}
@@ -176,21 +148,10 @@ const ProductCustomizationForm: React.FC<Props> = ({ productPartNames, productOp
                         {combinationError}
                       </Form.Control.Feedback>
                     }
-                    <div className='d-flex align-items-center'>
-                      <Button
-                        variant='outline-light'
-                        onClick={() => arrayHelpers.push({ part: '', option: '', price: 0 })}
-                        className='add-more-btn mr-3'
-                      >
-                        <i className='fa fa-plus mr-2' />
-                      </Button>
-                      <small className='ml-2'>Add More</small>
-                    </div>
                   </>
                 )}
-              />
-
-              <div className='actions mt-3'>
+              />}
+              <div className='d-flex justify-content-between align-items-center actions mt-3'>
                 <Button
                   variant='outline-dark'
                   type='submit'
@@ -199,12 +160,12 @@ const ProductCustomizationForm: React.FC<Props> = ({ productPartNames, productOp
                 >
                   Add to Cart
                 </Button>
+                <QuantitySelector maxQuantity={10} />
               </div>
             </FormikForm>
           )
         }}
       </Formik>
-      {(message && variant) && <AlertBanner message={message} variant={variant} />}
     </>
   )
 }

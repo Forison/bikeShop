@@ -1,18 +1,15 @@
-import { Shop } from "./interface/shop";
+import { Category, Shop } from "./interface/shop";
 
 export const PRODUCT_INITIAL_VALUES: Shop = {
   product: {
     id: '',
     name: '',
-    category: '',
+    category_id: 0,
     description: '',
     base_price: 0,
-    quantity: 0
+    quantity: 1,
+    not_customizable: true
   },
-  product_parts: [{
-    name: '',
-    part_options: [{ name: '', price: 0, quantity: 0 }],
-  }],
   price_rule: {
     part_option: [
       {
@@ -28,4 +25,14 @@ export const PRODUCT_INITIAL_VALUES: Shop = {
       option: ''
     }],
   },
+}
+
+export const CATEGORY_INITIAL_VALUES: Category = {
+  category: {
+    name: '',
+    product_parts: [{
+      name: '',
+      part_options: [{ name: '', price: 0, quantity: 0 }],
+    }],
+  }
 }

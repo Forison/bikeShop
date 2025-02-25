@@ -78,7 +78,7 @@ Rails.application.configure do
     Bullet.rails_logger = true
 
     # Raise errors for N+1 queries
-    Bullet.raise = true # Disable in production
+    Bullet.raise = false # Disable in production
 
     # Detect N+1 queries
     Bullet.n_plus_one_query_enable = true

@@ -3,13 +3,17 @@ import { ProductCustomizations } from "./customization"
 export interface Product {
   id: string
   name: string
-  category: string
+  category_id: number
   description: string
   base_price: number
   quantity: number
-  price_rule?: PriceRulePartOption[]
-  customization_options?: ProductCustomizations
+  not_customizable: boolean
 }
+export interface ProductWithCustomization extends Product {
+  price_rule: PriceRulePartOption[]
+  customization_options: ProductCustomizations
+}
+
 
 export interface ProductPartOption {
   name: string
@@ -32,7 +36,7 @@ export interface PriceRule {
   part_option: PriceRulePartOption[]
 }
 
-interface ProhibitedOption {
+export interface ProhibitedOption {
   part: string
   option: string
 }
@@ -43,7 +47,13 @@ interface CombinationRule {
 
 export interface Shop {
   product: Product
-  product_parts: ProductPart[]
   price_rule: PriceRule
   combination_rule: CombinationRule
+}
+
+export interface Category {
+  category: {
+    name: string
+    product_parts: ProductPart[]
+  }
 }

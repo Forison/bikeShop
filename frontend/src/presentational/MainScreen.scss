@@ -17,7 +17,7 @@
         font-weight: 400;
       }
 
-      h1.moterra-title {
+      h1.title {
         font-size: 3rem;
         font-weight: 700;
         margin-bottom: 1rem;
@@ -45,5 +45,11 @@
   .moterra-price {
     font-weight: 700;
     font-size: 2rem;
+  }
+
+  .carousel-indicators {
+    bottom {
+      background-color: red;
+    }
   }
 }

@@ -11,12 +11,9 @@ module Api
         create?
       end
 
-      def destroy?
-        create?
+      def show?
+        create
       end
-
-      # class Scope < ApplicationPolicy::Scope
-      # end
     end
   end
 end

@@ -1,13 +1,13 @@
 import React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { useQuery } from '@tanstack/react-query'
-import NavBar from './productDetails/NavBar'
 import MainScreen from '../presentational/MainScreen'
 import ProductCard from '../presentational/ProductCard'
 import { Product } from '../utils/interface/shop'
 import Loading from '../presentational/Loading'
 import AlertBanner from '../presentational/AlertBanner'
 import { fetchProducts } from '../services/fetchProducts'
+import Footer from '../presentational/Footer'
 
 const Home: React.FC = () => {
   const { data: products, isLoading, isError, error } = useQuery<Product[], Error>({
@@ -21,28 +21,27 @@ const Home: React.FC = () => {
   if (isError) return <AlertBanner variant='danger' message={error?.message} />
   return (
     <>
-      <NavBar />
-      <Container fluid className='shop-container d-flex '>
-        <Row>
-          {products && <MainScreen product={products[0]} />}
-        </Row>
+      <Container className='shop-container'>
+        {products && <MainScreen product={products[0]} />}
       </Container>
-      <Container className='shop-container d-flex justify-content-center align-items-center'>
+      <Container className='shop-container'>
         <Row className='w-100'>
           {products?.slice(1).map((product, index) => (
-            <Col lg={3} key={index} className='mt-2'>
+            <Col lg={2} md={4} sm={6} xs={12} key={index} className='mt-2'>
               <ProductCard
                 id={product.id}
                 name={product.name}
-                category={product.category}
-                description={product.description}
+                category_id={product.category_id}
+                // description={product.description}
                 price={product.base_price ?? 0}
                 quantity={product.quantity}
+                className='shadow-on-hover'
               />
             </Col>
           ))}
         </Row>
       </Container>
+      <Footer />
     </>
   )
 }

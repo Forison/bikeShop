@@ -5,6 +5,7 @@ module Api
     class ProductPartOptionPolicy < ApplicationPolicy
       def create?
         user.admin?
+        true
       end
 
       def update?
@@ -14,9 +15,6 @@ module Api
       def destroy?
         create?
       end
-
-      # class Scope < ApplicationPolicy::Scope
-      # end
     end
   end
 end

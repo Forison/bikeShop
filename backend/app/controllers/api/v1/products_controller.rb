@@ -8,14 +8,14 @@ module Api
       before_action :authorize_product, only: :destroy
 
       def index
-        @products = Api::V1::Product.includes(:product_parts, :product_part_options).all
+        @products = Api::V1::Product.includes(:category).all
         render json: @products, status: :ok
       end
 
       def create
-        product = @current_user.products.new(product_params)
+        product = @current_user.products.new(product_params[:product])
         authorize product
-        service = ProductCreationService.new(product, params)
+        service = ProductCreationService.new(product, product_params)
         if service.call
           render json: product, status: :created
         else
@@ -38,7 +38,7 @@ module Api
       private
 
       def set_product
-        @product = Api::V1::Product.includes(product_parts: :product_part_options).find(params[:id])
+        @product = Api::V1::Product.includes(:product_customization, :category).find(params[:id])
       rescue ActiveRecord::RecordNotFound
         render json: { error: 'Product not found' }, status: :not_found
       end
@@ -48,16 +48,22 @@ module Api
       end
 
       def product_params
-        params.require(:product).permit(
-          :id,
-          :name,
-          :category,
-          :description,
-          :quantity,
-          :base_price,
-          product_part: [:name, { part_options: %i[name price] }],
-          price_rule: [part_option: %i[condition_value condition_key price_modifier]],
-          combination_rule: [:product_id, { prohibited_options: %i[part option] }]
+        params.permit(
+          product: %i[
+            id
+            name
+            category_id
+            description
+            quantity
+            base_price
+          ],
+          price_rule: [
+            part_option: %i[condition_value condition_key price_modifier]
+          ],
+          combination_rule: [
+            :product_id,
+            { prohibited_options: %i[part option] }
+          ]
         )
       end
     end

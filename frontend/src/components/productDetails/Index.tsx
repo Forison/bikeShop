@@ -4,12 +4,12 @@ import { Col, Container, Row } from 'react-bootstrap'
 import ImageGallery from './ImageGallery'
 import ProductCustomization from './ProductCustomization'
 import NavBar from './NavBar'
+import Footer from '../../presentational/Footer'
 
 
 const Index: React.FC = () => {
   return (
     <>
-      <NavBar />
       <Container>
         <Row className='justify-content-center'>
           <Col md={6}>
@@ -20,6 +20,7 @@ const Index: React.FC = () => {
           </Col>
         </Row>
       </Container>
+      <Footer />
     </>
   )
 }

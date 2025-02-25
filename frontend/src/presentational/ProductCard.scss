@@ -1,31 +1,9 @@
 .product-card {
+  cursor: pointer;
   border-radius: 16px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 
   .image-container {
     position: relative;
-  }
-
-  .product-title {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin: 8px 0;
-  }
-
-  .product-description {
-    font-size: 0.9rem;
-    color: #6c757d;
-  }
-
-  .product-price {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin: 12px 0;
-  }
-
-  .add-to-cart-btn {
-    width: 100%;
-    border-radius: 8px;
   }
 }
