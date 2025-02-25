@@ -1,11 +1,17 @@
 import React from 'react'
-import { Field, FieldArray, ErrorMessage, useFormikContext } from 'formik'
+import { Field, FieldArray, useFormikContext, FormikErrors } from 'formik'
 import { Button, Form } from 'react-bootstrap'
-import { Shop } from '../../utils/interface/shop'
+import { Shop, ProhibitedOption } from '../../utils/interface/shop'
+import { CategoryWithOptions } from '../../utils/interface/category'
+import { getProductPartOptionsByCategoryName } from '../../utils/helper/getProductPartOptionsByCategoryName'
 
-const CombinationRuleForm: React.FC = () => {
-  const { values } = useFormikContext<Shop>()
+interface Prop {
+  categories: CategoryWithOptions[] | undefined
+}
 
+const CombinationRuleForm: React.FC<Prop> = ({ categories }) => {
+  const { values, setFieldValue, errors } = useFormikContext<Shop>()
+  const { parts, part_options } = getProductPartOptionsByCategoryName(categories!, values.product.category_id)
   return (
     <>
       <h1 className='text-center fs-4'>Add Combination Rules</h1>
@@ -17,31 +23,40 @@ const CombinationRuleForm: React.FC = () => {
                 <Form.Group controlId={`prohibitedOptions-${index}`} className='flex-grow-1'>
                   <Form.Label>Part</Form.Label>
                   <Field
+                    as='select'
                     name={`combination_rule.prohibited_options[${index}].part`}
-                    type='text'
-                    as={Form.Control}
-                    placeholder='Enter prohibited part'
-                  />
-                  <ErrorMessage
-                    name={`combination_rule.prohibited_options[${index}].part`}
-                    component='div'
-                    className='text-danger'
-                  />
+                    className={`form-control ${!!(errors.combination_rule?.prohibited_options?.[index] as FormikErrors<ProhibitedOption>)?.part
+                      ? 'is-invalid' : ''}`}
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                      const selectedKey = e.target.value
+                      setFieldValue(`combination_rule.prohibited_options[${index}].part`, selectedKey)
+                      setFieldValue(`combination_rule.prohibited_options[${index}].option`, '')
+                    }}
+                  >
+                    <option value=''>Select a part</option>
+                    {parts.map((value: any, index: number) => (
+                      <option key={index} value={value.name}>{value.name}</option>
+                    ))}
+                  </Field>
                 </Form.Group>
 
                 <Form.Group controlId={`prohibitedOptions-${index}`} className='flex-grow-1'>
                   <Form.Label>Option</Form.Label>
                   <Field
+                    as='select'
                     name={`combination_rule.prohibited_options[${index}].option`}
-                    type='text'
-                    as={Form.Control}
-                    placeholder='Enter prohibited option'
-                  />
-                  <ErrorMessage
-                    name={`combination_rule.prohibited_options[${index}].option`}
-                    component='div'
-                    className='text-danger'
-                  />
+                    className={`form-control ${!!(errors.combination_rule?.prohibited_options?.[index] as FormikErrors<ProhibitedOption>)?.option
+                      ? 'is-invalid' : ''}`}
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                      const selectedKey = e.target.value
+                      setFieldValue(`combination_rule.prohibited_options[${index}].option`, selectedKey)
+                    }}
+                  >
+                    <option value=''>Select a part</option>
+                    {part_options.map((value: any, index: number) => (
+                      <option key={index} value={value.name}>{value.name}</option>
+                    ))}
+                  </Field>
                 </Form.Group>
 
                 {values.combination_rule.prohibited_options.length > 1 && (

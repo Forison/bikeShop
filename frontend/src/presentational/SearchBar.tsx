@@ -9,7 +9,6 @@ import { useNavigate } from 'react-router-dom'
 const SearchBar: React.FC = () => {
   const navigate = useNavigate()
   const onSearch = () => {
-    console.log('hello')
     navigate('Products')
   }
 

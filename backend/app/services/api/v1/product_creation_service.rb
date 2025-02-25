@@ -11,6 +11,8 @@ module Api
       def call
         ActiveRecord::Base.transaction do
           @product.save!
+          return true if @product.not_customizable
+
           create_price_rules
           create_combination_rules
           add_default_customization

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Row, Col, Form, Card } from 'react-bootstrap'
+import { Button, Row, Col, Form } from 'react-bootstrap'
 import { Formik, Form as FormikForm, FieldArray } from 'formik'
 import { useParams } from 'react-router-dom'
 import { ProductPart, ProductPartOption } from '../../utils/interface/shop'
@@ -10,16 +10,16 @@ import { isValidCombination } from '../../utils/helper/validCombination'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { createProductCustomization, fetchCustomizations } from '../../services/customization'
 import Loading from '../../presentational/Loading'
+import QuantitySelector from '../../presentational/QuantitySelector'
 import 'font-awesome/css/font-awesome.min.css'
 import './ProductCustomizationForm.scss'
-import QuantitySelector from '../../presentational/QuantitySelector'
 
 interface Props {
-  productPartNames: ProductPart[]
   productOptions: ProductPartOption[]
+  notCustomizable?: boolean
 }
 
-const ProductCustomizationForm: React.FC<Props> = ({ productPartNames, productOptions }) => {
+const ProductCustomizationForm: React.FC<Props> = ({ productOptions, notCustomizable }) => {
   const [variant, setVariant] = useState<string>('')
   const [message, setMessage] = useState<string>('')
   const [combinationError, setCombinationError] = useState<string>('')
@@ -105,9 +105,9 @@ const ProductCustomizationForm: React.FC<Props> = ({ productPartNames, productOp
           setFormValue(values)
           return (
             <FormikForm>
-              <FieldArray
+              {!notCustomizable && <FieldArray
                 name='selected_options'
-                render={(arrayHelpers) => (
+                render={() => (
                   <>
                     {values.selected_options.map((product: any, index: any) => (
                       <Row className='dropdown-section mb-3 align-items-center py-3 border rounded bg-awesome' key={index}>
@@ -148,13 +148,10 @@ const ProductCustomizationForm: React.FC<Props> = ({ productPartNames, productOp
                         {combinationError}
                       </Form.Control.Feedback>
                     }
-                    <div className='d-flex justify-content-between align-items-center'>
-                      <QuantitySelector maxQuantity={10} />
-                    </div>
                   </>
                 )}
-              />
-              <div className='actions mt-3'>
+              />}
+              <div className='d-flex justify-content-between align-items-center actions mt-3'>
                 <Button
                   variant='outline-dark'
                   type='submit'
@@ -163,6 +160,7 @@ const ProductCustomizationForm: React.FC<Props> = ({ productPartNames, productOp
                 >
                   Add to Cart
                 </Button>
+                <QuantitySelector maxQuantity={10} />
               </div>
             </FormikForm>
           )

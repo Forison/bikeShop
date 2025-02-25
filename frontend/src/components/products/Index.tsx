@@ -1,7 +1,6 @@
 import React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { useQuery } from '@tanstack/react-query'
-import NavBar from '../productDetails/NavBar'
 import ProductCard from '../../presentational/ProductCard'
 import { Product } from '../../utils/interface/shop'
 import Loading from '../../presentational/Loading'
@@ -21,7 +20,6 @@ const Home: React.FC = () => {
   if (isError) return <AlertBanner variant='danger' message={error?.message} />
   return (
     <>
-      <NavBar />
       <Container className='shop-container main-content'>
         <Row className='w-100'>
           {products?.slice(1).map((product, index) => (

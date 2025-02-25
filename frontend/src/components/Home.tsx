@@ -1,7 +1,6 @@
 import React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import { useQuery } from '@tanstack/react-query'
-import NavBar from './productDetails/NavBar'
 import MainScreen from '../presentational/MainScreen'
 import ProductCard from '../presentational/ProductCard'
 import { Product } from '../utils/interface/shop'
@@ -22,7 +21,6 @@ const Home: React.FC = () => {
   if (isError) return <AlertBanner variant='danger' message={error?.message} />
   return (
     <>
-      <NavBar />
       <Container className='shop-container'>
         {products && <MainScreen product={products[0]} />}
       </Container>

@@ -7,7 +7,8 @@ export const PRODUCT_INITIAL_VALUES: Shop = {
     category_id: 0,
     description: '',
     base_price: 0,
-    quantity: 0
+    quantity: 1,
+    not_customizable: true
   },
   price_rule: {
     part_option: [

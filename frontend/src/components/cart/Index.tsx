@@ -2,7 +2,6 @@ import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import CartItem from '../../presentational/Item'
 import CheckoutSection from '../../presentational/CheckoutSection'
-import NavBar from '../productDetails/NavBar'
 import Loading from '../../presentational/Loading'
 import AlertBanner from '../../presentational/AlertBanner'
 import { useQuery } from '@tanstack/react-query'
@@ -19,7 +18,6 @@ const Index: React.FC = () => {
 
   return (
     <>
-      <NavBar />
       <Container className='my-5'>
         <Row>
           <Col md={8}>

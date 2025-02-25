@@ -15,6 +15,9 @@ const Footer: React.FC = () => {
           <li>
             <a href="/follow">Follow Us</a>
           </li>
+          <li>
+            <a href="/follow">Become an affiliate</a>
+          </li>
           {/* Add more links as needed */}
         </ul>
       </div>

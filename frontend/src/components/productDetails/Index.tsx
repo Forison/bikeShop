@@ -10,7 +10,6 @@ import Footer from '../../presentational/Footer'
 const Index: React.FC = () => {
   return (
     <>
-      <NavBar />
       <Container>
         <Row className='justify-content-center'>
           <Col md={6}>

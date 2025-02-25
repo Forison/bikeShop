@@ -9,7 +9,6 @@ import SearchBar from '../../presentational/SearchBar'
 
 import './NavBar.scss'
 
-
 const NavBar: React.FC = () => {
   const navigate = useNavigate()
   const authContext = useContext(AuthContext)
@@ -18,6 +17,7 @@ const NavBar: React.FC = () => {
     logout()
     window.location.href = '/'
   }
+
   return (
     <Navbar bg='light' expand='lg' className='shadow sticky-top mb-5'>
       <Container>
@@ -44,13 +44,15 @@ const NavBar: React.FC = () => {
 
             {!!user ? (
               <>
+                <NavDropdown.Item className='fs-6'><strong>Hi,</strong> {user?.name}</NavDropdown.Item>
+                <hr />
                 {user?.admin && (
                   <>
                     <NavDropdown.Item onClick={() => navigate('/Product')}>New Product</NavDropdown.Item>
                     <NavDropdown.Item onClick={() => navigate('/category')}>Add Category</NavDropdown.Item>
+                    <hr />
                   </>
                 )}
-                <hr />
                 <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
               </>
             ) : (

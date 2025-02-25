@@ -65,7 +65,8 @@ bicycles.each do |bicycle|
       category_id: category.id,
       user_id: user.id,
       description: "A durable #{bicycle.downcase} suitable for off-road trails.",
-      quantity: 10
+      quantity: 10,
+      not_customizable: false
     },
     price_rule: [
       {

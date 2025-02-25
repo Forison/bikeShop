@@ -7,6 +7,7 @@ export interface Product {
   description: string
   base_price: number
   quantity: number
+  not_customizable: boolean
 }
 export interface ProductWithCustomization extends Product {
   price_rule: PriceRulePartOption[]
@@ -35,7 +36,7 @@ export interface PriceRule {
   part_option: PriceRulePartOption[]
 }
 
-interface ProhibitedOption {
+export interface ProhibitedOption {
   part: string
   option: string
 }

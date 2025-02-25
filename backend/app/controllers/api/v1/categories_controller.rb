@@ -6,7 +6,7 @@ module Api
       before_action :authenticate_request
 
       def index
-        categories = Api::V1::Category.all
+        categories = Api::V1::Category.includes(:product_parts, :product_part_options).all
         render json: categories, status: :ok
       end
 

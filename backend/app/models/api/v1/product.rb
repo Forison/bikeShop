@@ -7,13 +7,12 @@ module Api
       belongs_to :user
       belongs_to :category
 
-      # has_many :product_parts, dependent: :destroy
-      # has_many :product_part_options, through: :product_parts
       has_one :combination_rule, dependent: :destroy
       has_many :price_rules, dependent: :destroy
       has_one :product_customization, dependent: :destroy
 
-      validates :name, presence: true
+      validates :name, :description, :quantity, :category_id, presence: true
+      validates :base_price, presence: true, if: -> { !not_customizable? }
     end
   end
 end

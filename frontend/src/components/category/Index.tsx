@@ -6,7 +6,6 @@ import { useMutation } from '@tanstack/react-query'
 import ProductPartOptionForm from '../category/ProductPartOptionForm'
 import { categoryProductOptionSchema } from '../../utils/schema'
 import { Category } from '../../utils/interface/shop'
-import NavBar from '../productDetails/NavBar'
 import AlertBanner from '../../presentational/AlertBanner'
 import { CATEGORY_INITIAL_VALUES } from '../../utils/constants'
 import { createCategory } from '../../services/category'
@@ -50,7 +49,6 @@ const Index: React.FC = () => {
 
   return (
     <>
-      <NavBar />
       <Container className='mt-5'>
         <Row className='justify-content-center'>
           {message && variant && <AlertBanner variant={variant} message={message} />}

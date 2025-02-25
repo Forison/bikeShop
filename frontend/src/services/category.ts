@@ -35,3 +35,21 @@ export const getCategories = async () => {
 
   return response.json()
 }
+
+export const getCategoriesWithPart = async (values: Category) => {
+  const response = await fetch(`${process.env.REACT_APP_BACK_END_API_URL}/api/v1/categories_with_parts`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${getCookie()}`,
+    },
+    body: JSON.stringify(values)
+  })
+
+  if (!response.ok) {
+    const errorData = await response.json()
+    throw new Error(errorData.message || 'Product creation failed')
+  }
+
+  return response.json()
+}

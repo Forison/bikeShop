@@ -26,10 +26,10 @@ const ProductCustomization: React.FC = () => {
         <div className='pricing'>
           <h2>€{product?.base_price}</h2>
         </div>
-        <small>Customize your product as you wish</small>
+        {!product?.not_customizable && <small>Customize your product as you wish</small>}
 
         <ProductCustomizationForm
-          productPartNames={product?.product_parts ?? []}
+          notCustomizable={product?.not_customizable}
           productOptions={product?.product_part_options ?? []}
         />
       </Card.Body>

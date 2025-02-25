@@ -93,6 +93,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_01_25_013841) do
     t.bigint "user_id", null: false
     t.string "name", null: false
     t.text "description", null: false
+    t.boolean "not_customizable", default: true, null: false
     t.decimal "base_price", precision: 10, scale: 2, default: "0.0", null: false
     t.integer "quantity", default: 0, null: false
     t.datetime "created_at", null: false

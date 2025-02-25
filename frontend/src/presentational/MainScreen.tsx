@@ -25,7 +25,8 @@ const MainScreen: React.FC<Prop> = ({ product }) => {
         <p className='text-muted mb-1 moterra-subheading'>
           When The Only Boundary Left Is Gravity
         </p>
-        <h1 className='moterra-title'>{product.name}</h1>
+        <h1 className='title'>{product.name}</h1>
+        <h1 className='fs-3'>€{product.base_price}</h1>
         <Button variant='warning' size='lg' className='moterra-button shadow' onClick={() => navigate(`/detail/${product.id}`)}>
           Shop Now
         </Button>
