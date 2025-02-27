@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { Navbar, Nav, NavDropdown, Container, Image } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
-import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
+import { faShoppingCart, faEnvelope, faBell } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { AuthContext } from '../authentication/AuthContext'
 import { logout } from '../../utils/helper/tokenHandler'
@@ -24,11 +24,23 @@ const NavBar: React.FC = () => {
         <Navbar.Brand href='/'>MyApp</Navbar.Brand>
         <SearchBar />
         {user && !user?.admin && (
-          <FontAwesomeIcon
-            className='mx-4 cursor-pointer'
-            icon={faShoppingCart}
-            onClick={() => navigate('/carts')}
-          />
+          <>
+            <FontAwesomeIcon
+              className='mx-4 cursor-pointer'
+              icon={faEnvelope}
+            // onClick={() => navigate('/carts')}
+            />
+            <FontAwesomeIcon
+              className='mx-4 cursor-pointer'
+              icon={faShoppingCart}
+              onClick={() => navigate('/carts')}
+            />
+            <FontAwesomeIcon
+              className='mx-4 cursor-pointer'
+              icon={faBell}
+            // onClick={() => navigate('/carts')}
+            />
+          </>
         )}
         <Nav className='ml-auto'>
           <NavDropdown
@@ -45,7 +57,7 @@ const NavBar: React.FC = () => {
               </span>
             }
             id='navbar-nav-dropdown'
-            className='no-caret small'
+            className='no-caret'
           >
 
             {!!user ? (
@@ -54,6 +66,7 @@ const NavBar: React.FC = () => {
                 <hr />
                 {user?.admin && (
                   <>
+                    <NavDropdown.Item onClick={() => navigate('/Dashboard')}>Dashboard</NavDropdown.Item>
                     <NavDropdown.Item onClick={() => navigate('/Product')}>New Product</NavDropdown.Item>
                     <NavDropdown.Item onClick={() => navigate('/category')}>Add Category</NavDropdown.Item>
                     <hr />

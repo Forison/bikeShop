@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       resources :cart_items, only: %i[create destroy]
       resources :categories, only: %i[create index]
       resources :product_parts, only: %i[create show]
+      resources :orders, only: %i[index show create]
 
       post 'register', to: 'auth#register'
       post 'login', to: 'auth#login'

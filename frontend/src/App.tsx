@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import Loading from './presentational/Loading'
 import { AuthContext } from './components/authentication/AuthContext'
 import NavBar from './components/productDetails/NavBar'
+import OrderDetails from './components/order/Index'
 
 const Home = lazy(() => import('./components/Home'))
 const ProductDetail = lazy(() => import('./components/productDetails/Index'))
@@ -58,6 +59,14 @@ const App: React.FC = () => {
             element={
               <PrivateRoute>
                 <Cart />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/orders"
+            element={
+              <PrivateRoute>
+                <OrderDetails />
               </PrivateRoute>
             }
           />
