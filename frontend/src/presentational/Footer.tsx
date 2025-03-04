@@ -21,6 +21,7 @@ const Footer: React.FC = () => {
           {/* Add more links as needed */}
         </ul>
       </div>
+      
       <div className="wave-background">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
           <path
